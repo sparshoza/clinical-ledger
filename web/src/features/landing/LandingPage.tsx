@@ -7,7 +7,7 @@ import { LivePreview } from "./LivePreview";
 
 /** The landing page wired to the visitor's own ledger. The same session carries into /demo. */
 export function LandingPage() {
-  const { call } = useSession();
+  const { call, error } = useSession();
   const stats = useStats();
   const events = useEvents(null);
   const [verifying, setVerifying] = useState(false);
@@ -21,6 +21,7 @@ export function LandingPage() {
           events={events.data?.items ?? []}
           verifying={verifying}
           result={result}
+          error={error && error.status < 500 ? { title: error.problem.title, detail: error.problem.detail } : null}
           onVerify={() => {
             setVerifying(true);
             call<VerifyOut>("/verify", { method: "POST", body: {} })

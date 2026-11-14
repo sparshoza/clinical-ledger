@@ -84,3 +84,13 @@ def test_s3_store_is_built_once_per_process_with_timeouts_and_pool() -> None:
     assert config.max_pool_connections >= BLOB_WORKERS
     assert config.connect_timeout <= 5
     assert config.read_timeout <= 15
+
+
+def test_delete_prefix_removes_only_that_prefix(store: BlobStore) -> None:
+    store.put("overrides/t1/a", b"x", "application/json")
+    store.put("overrides/t1/b", b"y", "application/json")
+    store.put("overrides/t2/a", b"z", "application/json")
+    store.delete_prefix("overrides/t1/")
+    assert not store.exists("overrides/t1/a")
+    assert not store.exists("overrides/t1/b")
+    assert store.exists("overrides/t2/a")

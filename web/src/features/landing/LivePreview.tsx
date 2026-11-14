@@ -1,4 +1,5 @@
 import type { EventOut, StatsOut, VerifyOut } from "../../api/types";
+import type { Reason } from "../status/ErrorState";
 import { HashText } from "../../components/HashText";
 import { BalancedIcon, BrokenIcon } from "../../components/icons";
 import { eventLabel } from "../../lib/format";
@@ -10,10 +11,12 @@ type Props = {
   onVerify: () => void;
   verifying: boolean;
   result: VerifyOut | null;
+  /** Why the ledger could not be created, when the server said. */
+  error?: Reason | null;
 };
 
 /** The visitor's own ledger, live: the newest journal entries and a working Verify. */
-export function LivePreview({ stats, events, onVerify, verifying, result }: Props) {
+export function LivePreview({ stats, events, onVerify, verifying, result, error = null }: Props) {
   return (
     <section aria-labelledby="live" className="border-rule bg-surface rounded-md border p-4 sm:p-5">
       <h2 id="live" className="text-base font-semibold">
@@ -74,6 +77,11 @@ export function LivePreview({ stats, events, onVerify, verifying, result }: Prop
             )}
           </div>
         </>
+      ) : error ? (
+        <div role="alert" className="mt-2 text-sm">
+          <p className="font-semibold">{error.title}</p>
+          {error.detail && <p className="text-ink-2 mt-1">{error.detail}</p>}
+        </div>
       ) : (
         <p className="text-ink-2 mt-2 text-sm">
           Creating your private ledger. The free database sleeps when nobody is using it, so the

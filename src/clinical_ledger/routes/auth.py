@@ -5,12 +5,13 @@ from typing import Annotated
 from uuid import UUID
 
 import psycopg
-from fastapi import APIRouter, Header
+from fastapi import APIRouter, Header, Request
 from pydantic import BaseModel
 
 from clinical_ledger.auth.tokens import InvalidToken, Role, decode_token, issue_token
 from clinical_ledger.deps import ConnDep, ContextDep, SeedDep, SettingsDep, bearer_token
 from clinical_ledger.settings import Settings
+from clinical_ledger.tenancy.limits import client_address, record_signup
 from clinical_ledger.tenancy.seed import Seed
 from clinical_ledger.tenancy.tenants import create_demo_tenant
 
@@ -38,6 +39,7 @@ class WhoAmI(BaseModel):
 @router.post("/auth/demo", response_model=SessionOut, summary="Start or switch a demo session")
 def demo_sign_in(
     body: DemoSignIn,
+    request: Request,
     conn: ConnDep,
     settings: SettingsDep,
     seed: SeedDep,
@@ -58,7 +60,9 @@ def demo_sign_in(
             ).fetchone()
             if row is not None:
                 tenant_id, expires_at = claims.tid, row[0]
-    return start_session(conn, settings, seed, body.role, tenant_id, expires_at)
+    return start_session(
+        conn, settings, seed, body.role, tenant_id, expires_at, client_address(request)
+    )
 
 
 def start_session(
@@ -68,9 +72,12 @@ def start_session(
     role: Role,
     tenant_id: UUID | None = None,
     expires_at: datetime | None = None,
+    address: str | None = None,
 ) -> SessionOut:
     """Issue a token for `role`, creating a fresh demo tenant when none is given."""
     if tenant_id is None:
+        if address is not None:
+            record_signup(conn, settings, address)
         tenant_id = create_demo_tenant(conn, settings, seed)
         row = conn.execute("SELECT expires_at FROM tenants WHERE id = %s", (tenant_id,)).fetchone()
         expires_at = row[0] if row else None

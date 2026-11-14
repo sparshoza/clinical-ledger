@@ -87,7 +87,12 @@ npm --prefix web run e2e          # browser tests against a local API and web se
   different tenants do not.
 - The hosted demo runs in a single region on free tiers, and its database sleeps when idle, so
   the first request after a quiet spell is slow.
-- Demo ledgers expire after 24 hours and are removed by a nightly job.
+- Demo ledgers expire after 24 hours and are removed by a nightly job, along with any files
+  tampered with in them. Documents themselves are stored once and shared by content hash, so
+  a document a visitor adds stays in storage after their ledger is removed.
+- To keep the shared free tiers available, each visitor address can start 10 demo ledgers an
+  hour, and each ledger accepts 300 new versions. Addresses are kept only as a keyed hash, for a
+  day.
 
 ## License
 

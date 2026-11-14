@@ -104,6 +104,11 @@ export function App({
 
       {unreachable ? (
         <ErrorState
+          reason={
+            sessionError && sessionError.status < 500
+              ? { title: sessionError.problem.title, detail: sessionError.problem.detail }
+              : null
+          }
           onRetry={() => {
             retry();
             void stats.refetch();

@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(ROOT / ".env")
 
 LEDGER_TABLES = (
+    "demo_signups",
     "tenants",
     "actors",
     "blobs",

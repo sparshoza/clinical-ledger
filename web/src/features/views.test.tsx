@@ -193,6 +193,14 @@ describe("ErrorState", () => {
   });
 });
 
+describe("ErrorState with a reason", () => {
+  it("shows the server's reason when it gave one", () => {
+    render(<ErrorState onRetry={() => {}} reason={{ title: "Too many new demo ledgers", detail: "Try again later." }} />);
+    expect(screen.getByText("Too many new demo ledgers")).toBeInTheDocument();
+    expect(screen.getByText("Try again later.")).toBeInTheDocument();
+  });
+});
+
 describe("StatusBar while busy", () => {
   it("disables Verify while another action is running", () => {
     render(<StatusBar stats={stats} onVerify={() => {}} canVerify verifying={false} busy />);

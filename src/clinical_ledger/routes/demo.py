@@ -3,7 +3,7 @@
 from typing import Annotated, Literal
 from uuid import UUID
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from pydantic import BaseModel
 
 from clinical_ledger.auth.permissions import Permission
@@ -12,6 +12,7 @@ from clinical_ledger.deps import RequestContext, SeedDep, require
 from clinical_ledger.problems import Problem
 from clinical_ledger.routes.auth import SessionOut, start_session
 from clinical_ledger.storage.blobs import override_key
+from clinical_ledger.tenancy.limits import client_address
 
 router = APIRouter(prefix="/demo", tags=["demo"])
 
@@ -67,5 +68,11 @@ def tamper(body: TamperIn, context: CanTamper) -> TamperOut:
 
 
 @router.post("/reset", response_model=SessionOut, summary="Start over with a fresh demo ledger")
-def reset(context: CanReset, seed: SeedDep) -> SessionOut:
-    return start_session(context.conn, context.settings, seed, context.claims.role)
+def reset(context: CanReset, seed: SeedDep, request: Request) -> SessionOut:
+    return start_session(
+        context.conn,
+        context.settings,
+        seed,
+        context.claims.role,
+        address=client_address(request),
+    )

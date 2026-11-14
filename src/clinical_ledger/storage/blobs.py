@@ -12,6 +12,7 @@ from clinical_ledger.settings import Settings
 
 if TYPE_CHECKING:
     from mypy_boto3_s3 import S3Client
+    from mypy_boto3_s3.type_defs import ObjectIdentifierTypeDef
 
 
 class BlobNotFound(Exception):
@@ -24,6 +25,8 @@ class BlobStore(Protocol):
     def get(self, key: str) -> bytes: ...
 
     def exists(self, key: str) -> bool: ...
+
+    def delete_prefix(self, prefix: str) -> None: ...
 
 
 def blob_key(content_hash: str) -> str:
@@ -51,6 +54,10 @@ class InMemoryBlobStore:
 
     def exists(self, key: str) -> bool:
         return key in self._objects
+
+    def delete_prefix(self, prefix: str) -> None:
+        for key in [k for k in self._objects if k.startswith(prefix)]:
+            del self._objects[key]
 
 
 _NOT_FOUND_CODES = {"NoSuchKey", "404", "NotFound"}
@@ -96,6 +103,18 @@ class S3BlobStore:
                 return False
             raise
         return True
+
+    def delete_prefix(self, prefix: str) -> None:
+        """Delete every object under `prefix` (used only for a demo tenant's tampered copies)."""
+        pages = self._client.get_paginator("list_objects_v2").paginate(
+            Bucket=self._bucket, Prefix=prefix
+        )
+        for page in pages:
+            keys: list[ObjectIdentifierTypeDef] = [
+                {"Key": item["Key"]} for item in page.get("Contents", [])
+            ]
+            if keys:
+                self._client.delete_objects(Bucket=self._bucket, Delete={"Objects": keys})
 
 
 _memory_store: InMemoryBlobStore | None = None

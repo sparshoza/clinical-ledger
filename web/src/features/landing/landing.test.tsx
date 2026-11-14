@@ -61,6 +61,17 @@ describe("LivePreview", () => {
   });
 });
 
+describe("LivePreview when the ledger cannot be created", () => {
+  it("says why instead of waiting forever", () => {
+    render(
+      <LivePreview stats={null} events={[]} onVerify={() => {}} verifying={false} result={null}
+        error={{ title: "Too many new demo ledgers", detail: "Try again later." }} />,
+    );
+    expect(screen.getByText("Too many new demo ledgers")).toBeInTheDocument();
+    expect(screen.queryByText(/Creating your private ledger/)).not.toBeInTheDocument();
+  });
+});
+
 describe("routeFor", () => {
   it("sends /demo and its sub-paths to the console and everything else to the landing page", () => {
     expect(routeFor("/demo")).toBe("demo");

@@ -27,6 +27,10 @@ class Settings(BaseSettings):
 
     checkpoint_interval: int = 1000
     demo_tenant_ttl_hours: int = 24
+    # Per-visitor limits on the shared demo: new ledgers per address per hour, and new
+    # versions per ledger.
+    demo_signups_per_hour: int = 10
+    max_new_versions_per_tenant: int = 300
     max_content_bytes: int = 2_097_152
 
 

@@ -25,6 +25,7 @@ from clinical_ledger.routes.schemas import (
     VersionList,
     VersionOut,
 )
+from clinical_ledger.tenancy.limits import require_write_budget
 from clinical_ledger.tenancy.seed import demo_edit_for
 
 router = APIRouter(prefix="/records", tags=["records"])
@@ -73,6 +74,7 @@ def create_record(body: RecordCreate, context: CanWrite) -> VersionOut:
     data, media_type = _content(body)
     writer, _ = ledger(context)
     with tenant_transaction(context.conn, context.tenant_id):
+        require_write_budget(context.conn, context.settings, context.tenant_id)
         ref = writer.create_record(body.kind, body.subject_ref, data, media_type, body.note)
     return VersionOut.of(ref, body.note)
 
@@ -98,6 +100,7 @@ def add_version(record_id: UUID, body: VersionCreate, context: CanWrite) -> Vers
     data, media_type = _content(body)
     writer, _ = ledger(context)
     with tenant_transaction(context.conn, context.tenant_id):
+        require_write_budget(context.conn, context.settings, context.tenant_id)
         ref = writer.add_version(record_id, data, media_type, body.note)
     return VersionOut.of(ref, body.note)
 
@@ -157,6 +160,7 @@ def demo_edit(record_id: UUID, context: CanWrite, seed: SeedDep) -> VersionOut:
         ).fetchone()
         if kind_row is None:
             raise RecordNotFound(str(record_id))
+        require_write_budget(context.conn, context.settings, context.tenant_id)
         current = reader.latest(record_id)
         if not is_json_media(current.media_type):
             raise Problem(409, "not-json", "Demo edits apply to JSON records only")
