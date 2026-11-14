@@ -3,6 +3,7 @@
 import logging
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 import psycopg
 from fastapi import APIRouter, FastAPI
@@ -16,6 +17,8 @@ from clinical_ledger.storage.blobs import make_blob_store
 from clinical_ledger.tenancy.seed import install_seed, load_seed
 
 API_PREFIX = "/api/v1"
+# The built demo page (`npm run build` in web/). Served from the CDN when deployed.
+WEB_DIST = Path(__file__).resolve().parents[2] / "web" / "dist"
 logger = logging.getLogger("clinical_ledger")
 
 DESCRIPTION = (
@@ -28,7 +31,7 @@ DESCRIPTION = (
 @asynccontextmanager
 async def _lifespan(app: FastAPI) -> AsyncIterator[None]:
     """Local runs with in-memory storage load the shared seed rows and files at startup."""
-    settings: Settings = app.state.settings
+    settings = app_settings(app)
     if settings.s3_backend == "memory":
         try:
             with psycopg.connect(settings.database_url, autocommit=True, connect_timeout=5) as conn:
@@ -38,7 +41,15 @@ async def _lifespan(app: FastAPI) -> AsyncIterator[None]:
     yield
 
 
-def create_app(settings: Settings | None = None) -> FastAPI:
+def app_settings(app: FastAPI) -> Settings:
+    """The app's settings, read from the environment on first use when none were given."""
+    if app.state.settings is None:
+        app.state.settings = get_settings()
+    settings: Settings = app.state.settings
+    return settings
+
+
+def create_app(settings: Settings | None = None, web_dist: Path | None = WEB_DIST) -> FastAPI:
     app = FastAPI(
         lifespan=_lifespan,
         title="Clinical Ledger API",
@@ -48,7 +59,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         redoc_url=None,
         openapi_url="/api/openapi.json",
     )
-    app.state.settings = settings or get_settings()
+    # Settings load lazily so the module imports without secrets (hosts inspect `app`).
+    app.state.settings = settings
     install_problem_handlers(app)
     install_request_logging(app)
 
@@ -56,19 +68,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     for module in (health, auth, records, events, verify, stats, demo, cron):
         api.include_router(module.router)
     app.include_router(api)
+    if web_dist is not None and (web_dist / "index.html").is_file():
+        app.frontend("/", directory=web_dist, fallback="index.html")
     return app
 
 
-class _LazyApp:
-    """Build the app on first request so importing this module needs no environment."""
-
-    def __init__(self) -> None:
-        self._app: FastAPI | None = None
-
-    async def __call__(self, scope, receive, send):  # type: ignore[no-untyped-def]
-        if self._app is None:
-            self._app = create_app()
-        await self._app(scope, receive, send)
-
-
-app = _LazyApp()
+app = create_app()

@@ -19,8 +19,9 @@ from clinical_ledger.tenancy.tenants import tenant_exists
 
 
 def get_settings(request: Request) -> Settings:
-    settings: Settings = request.app.state.settings
-    return settings
+    from clinical_ledger.main import app_settings
+
+    return app_settings(request.app)
 
 
 SettingsDep = Annotated[Settings, Depends(get_settings)]
