@@ -11,6 +11,9 @@ def required_env(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("S3_SECRET_ACCESS_KEY", "secret")
     monkeypatch.setenv("JWT_SECRET", "jwt")
     monkeypatch.setenv("CRON_SECRET", "cron")
+    # Defaults are under test, so settings the surrounding shell or CI exports must not leak in.
+    for name in ("S3_BACKEND", "S3_REGION", "S3_ENDPOINT_URL", "LEDGER_DATABASE_URL"):
+        monkeypatch.delenv(name, raising=False)
 
 
 def test_defaults(required_env: None) -> None:
