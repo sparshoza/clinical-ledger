@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  api:
+    name: API (lint, types, tests)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: clinical_ledger_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      TEST_DATABASE_URL_OWNER: postgresql://postgres:postgres@localhost:5432/clinical_ledger_test
+      LEDGER_APP_PASSWORD: ci-ledger-app
+      JWT_SECRET: ci-jwt-secret
+      CRON_SECRET: ci-cron-secret
+      DATABASE_URL: postgresql://ledger_app:ci-ledger-app@localhost:5432/clinical_ledger_test
+      S3_BACKEND: memory
+      S3_BUCKET: clinical-ledger
+      S3_ACCESS_KEY_ID: test
+      S3_SECRET_ACCESS_KEY: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+      - run: uv sync --locked
+      - run: uv run ruff check
+      - run: uv run ruff format --check
+      - run: uv run mypy
+      - run: uv run pytest --cov=clinical_ledger --cov-report=term-missing

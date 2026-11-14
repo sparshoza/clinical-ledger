@@ -1,0 +1,68 @@
+[project]
+name = "clinical-ledger"
+version = "0.1.0"
+description = "Tamper-evident, versioned clinical record ledger: FastAPI, PostgreSQL and S3-compatible storage."
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "Sparsh Oza" }]
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "pydantic>=2.9",
+    "pydantic-settings>=2.6",
+    "psycopg[binary]>=3.2",
+    "alembic>=1.14",
+    "sqlalchemy>=2.0",
+    "boto3>=1.35",
+    "pyjwt>=2.10",
+    "jsonpatch>=1.33",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-cov>=6.0",
+    "ruff>=0.8",
+    "mypy>=1.13",
+    "httpx>=0.28",
+    "moto[s3]>=5.0",
+    "python-dotenv>=1.0",
+    "boto3-stubs[s3]>=1.35",
+]
+
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/clinical_ledger"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "S"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S105", "S106", "S311"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+packages = ["clinical_ledger"]
+mypy_path = "src"
+
+[[tool.mypy.overrides]]
+module = ["jsonpatch"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-ra"
+markers = [
+    "integration: needs PostgreSQL (TEST_DATABASE_URL_OWNER)",
+]
