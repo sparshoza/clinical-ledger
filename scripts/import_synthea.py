@@ -117,7 +117,8 @@ def main() -> None:
             if trimmed is None:
                 continue
             target = OUT / f"{trimmed['patient']['id']}.json"
-            target.write_text(json.dumps(trimmed, indent=2, sort_keys=True) + "\n", "utf-8")
+            text = json.dumps(trimmed, indent=2, sort_keys=True) + "\n"
+            target.write_text(text, "utf-8", newline="\n")
             written += 1
     print(f"wrote {written} patients to {OUT}")
 
