@@ -40,3 +40,4 @@ Thumbs.db
 
 # Local build tooling
 .superpowers/
+*.tsbuildinfo
