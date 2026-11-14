@@ -5,7 +5,7 @@ inside it so a version, its head update and its event commit together or not at 
 """
 
 import uuid
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from typing import Any
 from uuid import UUID
 
@@ -70,7 +70,7 @@ class LedgerWriter:
         self, record_id: UUID, content: bytes, media_type: str, note: str = ""
     ) -> VersionRef:
         row = self._conn.execute(
-            "SELECT latest_version_no FROM record_heads "
+            "SELECT latest_version_no, updated_at FROM record_heads "
             "WHERE tenant_id = %s AND record_id = %s FOR UPDATE",
             (self._tenant_id, record_id),
         ).fetchone()
@@ -78,7 +78,9 @@ class LedgerWriter:
             raise RecordNotFound(str(record_id))
         content_hash = self._store_blob(content, media_type)
         version_no = int(row[0]) + 1
-        now = datetime.now(UTC)
+        # Strictly after the previous version, even within one clock tick, so "as of" any
+        # version's own time returns that version.
+        now = max(datetime.now(UTC), row[1] + timedelta(microseconds=1))
         ref = self._insert_version(record_id, version_no, content_hash, note, now)
         self._conn.execute(
             "UPDATE record_heads SET latest_version_no = %s, latest_content_hash = %s, "

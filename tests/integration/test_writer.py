@@ -1,6 +1,7 @@
 import threading
 import uuid
 from collections.abc import Callable
+from datetime import UTC, datetime, tzinfo
 
 import psycopg
 import pytest
@@ -223,3 +224,33 @@ def test_checkpoint_written_every_interval(
         ).fetchall()
     ]
     assert seqs == [5, 10]
+
+
+def test_versions_of_a_record_get_strictly_increasing_times_on_a_coarse_clock(
+    app_conn: psycopg.Connection,
+    store: InMemoryBlobStore,
+    tenant: uuid.UUID,
+    clinician: Actor,
+    settings: Settings,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # Two writes inside one clock tick must not share a timestamp, or "as of" a version's
+    # own time would return the version after it.
+    frozen = datetime(2026, 11, 14, 12, 0, tzinfo=UTC)
+
+    class FrozenClock(datetime):
+        @classmethod
+        def now(cls, tz: tzinfo | None = None) -> "FrozenClock":  # type: ignore[override]
+            return cls.fromtimestamp(frozen.timestamp(), tz)
+
+    monkeypatch.setattr("clinical_ledger.ledger.writer.datetime", FrozenClock)
+    writer = _writer(app_conn, store, tenant, clinician, settings)
+    with tenant_transaction(app_conn, tenant):
+        first = writer.create_record("lab-panel", "patient-1", b'{"v":1}', JSON)
+    refs = [first]
+    for n in (2, 3):
+        with tenant_transaction(app_conn, tenant):
+            refs.append(writer.add_version(first.record_id, f'{{"v":{n}}}'.encode(), JSON))
+    times = [ref.created_at for ref in refs]
+    assert times == sorted(times)
+    assert len(set(times)) == 3
