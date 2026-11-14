@@ -1,0 +1,188 @@
+{
+  "conditions": [
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "314529007",
+        "display": "Medication review due (situation)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "dacd76f7-1058-504d-96e0-0dc823d84767",
+      "onsetDateTime": "2010-05-28T12:06:30+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "473461003",
+        "display": "Educated to high school level (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "dacd76f7-1058-504d-5c1b-dd171555fab2",
+      "onsetDateTime": "2012-06-08T12:56:46+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "73438004",
+        "display": "Unemployed (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "dacd76f7-1058-504d-a661-ace87ccda809",
+      "onsetDateTime": "2012-06-08T12:56:46+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "422650009",
+        "display": "Social isolation (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "dacd76f7-1058-504d-157f-bd15ddbb8c36",
+      "onsetDateTime": "2019-06-21T12:57:56+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "73595000",
+        "display": "Stress (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "dacd76f7-1058-504d-1716-3a5954313d17",
+      "onsetDateTime": "2019-06-21T12:57:56+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "183996000",
+        "display": "Sterilization requested (situation)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "dacd76f7-1058-504d-5444-efdbccfc75fc",
+      "onsetDateTime": "2020-02-11T12:24:16+00:00",
+      "resourceType": "Condition"
+    }
+  ],
+  "observations": [
+    {
+      "code": {
+        "code": "32207-3",
+        "display": "Platelet distribution width [Entitic volume] in Blood by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2022-06-24T12:06:30+00:00",
+      "id": "dacd76f7-1058-504d-5b4b-929ec9978e10",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "fL",
+        "value": 13.285
+      }
+    },
+    {
+      "code": {
+        "code": "32623-1",
+        "display": "Platelet [Entitic mean volume] in Blood by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2022-06-24T12:06:30+00:00",
+      "id": "dacd76f7-1058-504d-e07e-18def5166b7d",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "fL",
+        "value": 11.407
+      }
+    },
+    {
+      "code": {
+        "code": "2093-3",
+        "display": "Cholesterol [Mass/volume] in Serum or Plasma",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-06-27T12:06:30+00:00",
+      "id": "dacd76f7-1058-504d-a8b5-a9d7e107fae8",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mg/dL",
+        "value": 187.75
+      }
+    },
+    {
+      "code": {
+        "code": "2571-8",
+        "display": "Triglyceride [Mass/volume] in Serum or Plasma",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-06-27T12:06:30+00:00",
+      "id": "dacd76f7-1058-504d-1869-27f806e56567",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mg/dL",
+        "value": 107.17
+      }
+    },
+    {
+      "code": {
+        "code": "18262-6",
+        "display": "Cholesterol in LDL [Mass/volume] in Serum or Plasma by Direct assay",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-06-27T12:06:30+00:00",
+      "id": "dacd76f7-1058-504d-6cb2-34b432eb8318",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mg/dL",
+        "value": 110.89
+      }
+    },
+    {
+      "code": {
+        "code": "2085-9",
+        "display": "Cholesterol in HDL [Mass/volume] in Serum or Plasma",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-06-27T12:06:30+00:00",
+      "id": "dacd76f7-1058-504d-7127-120976beee9c",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mg/dL",
+        "value": 55.43
+      }
+    }
+  ],
+  "patient": {
+    "address": [
+      {
+        "city": "Methuen",
+        "state": "MA"
+      }
+    ],
+    "birthDate": "1994-04-15",
+    "gender": "female",
+    "id": "dacd76f7-1058-504d-47e9-c2cebc1ac573",
+    "name": [
+      {
+        "family": "Walter473",
+        "given": [
+          "Arla414",
+          "Maryann106"
+        ]
+      }
+    ],
+    "resourceType": "Patient"
+  },
+  "report": {
+    "code": {
+      "code": "34117-2",
+      "display": "History and physical note",
+      "system": "http://loinc.org"
+    },
+    "effectiveDateTime": "2026-07-24T12:06:30+00:00",
+    "id": "d5bcd598-d1d4-fd22-9f09-77db0dbee90f",
+    "resourceType": "DiagnosticReport",
+    "status": "preliminary"
+  }
+}

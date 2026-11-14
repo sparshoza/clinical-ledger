@@ -1,0 +1,188 @@
+{
+  "conditions": [
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "314529007",
+        "display": "Medication review due (situation)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "1d670d3c-f290-52f4-b249-bb3249d68840",
+      "onsetDateTime": "2017-02-22T04:27:13+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "224299000",
+        "display": "Received higher education (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "1d670d3c-f290-52f4-9058-7fcf9b1ec0e7",
+      "onsetDateTime": "2017-02-22T05:23:51+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "160903007",
+        "display": "Full-time employment (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "1d670d3c-f290-52f4-2508-6f8cfcc2fe60",
+      "onsetDateTime": "2017-02-22T05:23:51+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "18718003",
+        "display": "Gingival disease (disorder)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "1d670d3c-f290-52f4-d451-1a148e8acd16",
+      "onsetDateTime": "2017-03-08T07:50:23+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "314529007",
+        "display": "Medication review due (situation)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "1d670d3c-f290-52f4-b361-f1a4eac58602",
+      "onsetDateTime": "2018-02-28T04:27:13+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "423315002",
+        "display": "Limited social contact (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "1d670d3c-f290-52f4-3db9-6b977cfa24c6",
+      "onsetDateTime": "2018-02-28T05:15:37+00:00",
+      "resourceType": "Condition"
+    }
+  ],
+  "observations": [
+    {
+      "code": {
+        "code": "785-6",
+        "display": "MCH [Entitic mass] by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2021-03-10T04:27:13+00:00",
+      "id": "1d670d3c-f290-52f4-345e-c00fe5f9a978",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "pg",
+        "value": 32.069
+      }
+    },
+    {
+      "code": {
+        "code": "786-4",
+        "display": "MCHC [Entitic Mass/volume] in Red Blood Cells by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2021-03-10T04:27:13+00:00",
+      "id": "1d670d3c-f290-52f4-f79d-357f4842abc6",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "g/dL",
+        "value": 34.86
+      }
+    },
+    {
+      "code": {
+        "code": "788-0",
+        "display": "Erythrocyte [DistWidth] in Blood by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2021-03-10T04:27:13+00:00",
+      "id": "1d670d3c-f290-52f4-5433-40a8ead4f2a0",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "fL",
+        "value": 44.917
+      }
+    },
+    {
+      "code": {
+        "code": "777-3",
+        "display": "Platelets [#/volume] in Blood by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2021-03-10T04:27:13+00:00",
+      "id": "1d670d3c-f290-52f4-8691-f27301ab52ba",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "10*3/uL",
+        "value": 205.36
+      }
+    },
+    {
+      "code": {
+        "code": "32207-3",
+        "display": "Platelet distribution width [Entitic volume] in Blood by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2021-03-10T04:27:13+00:00",
+      "id": "1d670d3c-f290-52f4-d846-509c8f43dda2",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "fL",
+        "value": 14.305
+      }
+    },
+    {
+      "code": {
+        "code": "32623-1",
+        "display": "Platelet [Entitic mean volume] in Blood by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2021-03-10T04:27:13+00:00",
+      "id": "1d670d3c-f290-52f4-9205-0036a9abad24",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "fL",
+        "value": 11.593
+      }
+    }
+  ],
+  "patient": {
+    "address": [
+      {
+        "city": "Plymouth",
+        "state": "MA"
+      }
+    ],
+    "birthDate": "1998-12-30",
+    "gender": "male",
+    "id": "1d670d3c-f290-52f4-9409-aaffd1eb59f5",
+    "name": [
+      {
+        "family": "Kirlin939",
+        "given": [
+          "Brett333",
+          "Kurt412"
+        ]
+      }
+    ],
+    "resourceType": "Patient"
+  },
+  "report": {
+    "code": {
+      "code": "34117-2",
+      "display": "History and physical note",
+      "system": "http://loinc.org"
+    },
+    "effectiveDateTime": "2024-03-27T04:27:13+00:00",
+    "id": "89d18935-17a1-a96a-6057-fa8191033022",
+    "resourceType": "DiagnosticReport",
+    "status": "preliminary"
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "conditions": [
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "473461003",
+        "display": "Educated to high school level (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "fd51467b-6db3-bca2-61ee-41d61bb284a6",
+      "onsetDateTime": "1984-04-24T06:22:46+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "59621000",
+        "display": "Essential hypertension (disorder)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "fd51467b-6db3-bca2-b05e-68e95a185011",
+      "onsetDateTime": "2006-03-07T05:38:49+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "162864005",
+        "display": "Body mass index 30+ - obesity (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "fd51467b-6db3-bca2-0cdc-e2372ffef26e",
+      "onsetDateTime": "2008-03-18T05:38:49+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "422650009",
+        "display": "Social isolation (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "fd51467b-6db3-bca2-679d-3e335d7733c4",
+      "onsetDateTime": "2009-03-24T06:10:31+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "160903007",
+        "display": "Full-time employment (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "fd51467b-6db3-bca2-f23f-17223c9228d1",
+      "onsetDateTime": "2015-04-28T06:16:20+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "73595000",
+        "display": "Stress (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "fd51467b-6db3-bca2-e878-54ef511befcb",
+      "onsetDateTime": "2016-05-03T06:28:53+00:00",
+      "resourceType": "Condition"
+    }
+  ],
+  "observations": [
+    {
+      "code": {
+        "code": "785-6",
+        "display": "MCH [Entitic mass] by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2026-06-30T05:38:49+00:00",
+      "id": "fd51467b-6db3-bca2-0262-9cf113d0b0da",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "pg",
+        "value": 28.838
+      }
+    },
+    {
+      "code": {
+        "code": "786-4",
+        "display": "MCHC [Entitic Mass/volume] in Red Blood Cells by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2026-06-30T05:38:49+00:00",
+      "id": "fd51467b-6db3-bca2-2eed-8cc9236ccb69",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "g/dL",
+        "value": 35.62
+      }
+    },
+    {
+      "code": {
+        "code": "788-0",
+        "display": "Erythrocyte [DistWidth] in Blood by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2026-06-30T05:38:49+00:00",
+      "id": "fd51467b-6db3-bca2-d36b-9260c2b92079",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "fL",
+        "value": 45.178
+      }
+    },
+    {
+      "code": {
+        "code": "777-3",
+        "display": "Platelets [#/volume] in Blood by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2026-06-30T05:38:49+00:00",
+      "id": "fd51467b-6db3-bca2-7faa-7aa708e2edbd",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "10*3/uL",
+        "value": 429.89
+      }
+    },
+    {
+      "code": {
+        "code": "32207-3",
+        "display": "Platelet distribution width [Entitic volume] in Blood by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2026-06-30T05:38:49+00:00",
+      "id": "fd51467b-6db3-bca2-2cd6-1c3cc7716a94",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "fL",
+        "value": 14.89
+      }
+    },
+    {
+      "code": {
+        "code": "32623-1",
+        "display": "Platelet [Entitic mean volume] in Blood by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2026-06-30T05:38:49+00:00",
+      "id": "fd51467b-6db3-bca2-64da-358d4ee74e8e",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "fL",
+        "value": 12.232
+      }
+    }
+  ],
+  "patient": {
+    "address": [
+      {
+        "city": "Medford",
+        "state": "MA"
+      }
+    ],
+    "birthDate": "1966-03-01",
+    "gender": "male",
+    "id": "fd51467b-6db3-bca2-66fc-f19eeaaa7e33",
+    "name": [
+      {
+        "family": "Brekke496",
+        "given": [
+          "Abram53"
+        ]
+      }
+    ],
+    "resourceType": "Patient"
+  },
+  "report": {
+    "code": {
+      "code": "34117-2",
+      "display": "History and physical note",
+      "system": "http://loinc.org"
+    },
+    "effectiveDateTime": "2026-06-30T05:38:49+00:00",
+    "id": "d2c4bb07-08ad-78b3-f75d-41c30e0aebbc",
+    "resourceType": "DiagnosticReport",
+    "status": "preliminary"
+  }
+}

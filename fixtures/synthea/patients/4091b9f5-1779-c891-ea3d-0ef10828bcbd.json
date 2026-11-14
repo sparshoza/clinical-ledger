@@ -1,0 +1,188 @@
+{
+  "conditions": [
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "314529007",
+        "display": "Medication review due (situation)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "4091b9f5-1779-c891-d726-1073b30c46ca",
+      "onsetDateTime": "2014-10-16T19:21:39+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "444814009",
+        "display": "Viral sinusitis (disorder)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "4091b9f5-1779-c891-0def-cd33b9bd52a9",
+      "onsetDateTime": "2016-12-17T04:21:39+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "314529007",
+        "display": "Medication review due (situation)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "4091b9f5-1779-c891-cc99-50c8b214f092",
+      "onsetDateTime": "2017-11-02T19:21:39+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "444814009",
+        "display": "Viral sinusitis (disorder)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "4091b9f5-1779-c891-fe31-81a32e312cec",
+      "onsetDateTime": "2018-05-26T06:21:39+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "66383009",
+        "display": "Gingivitis (disorder)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "4091b9f5-1779-c891-63db-45cfb9407b35",
+      "onsetDateTime": "2018-11-08T19:21:39+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "444814009",
+        "display": "Viral sinusitis (disorder)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "4091b9f5-1779-c891-4bb0-6579a7c31fdf",
+      "onsetDateTime": "2018-11-24T14:21:39+00:00",
+      "resourceType": "Condition"
+    }
+  ],
+  "observations": [
+    {
+      "code": {
+        "code": "5811-5",
+        "display": "Specific gravity of Urine by Test strip",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-11-15T15:47:06+00:00",
+      "id": "4091b9f5-1779-c891-26af-8a5fb4e3aa80",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "{nominal}",
+        "value": 1.0189
+      }
+    },
+    {
+      "code": {
+        "code": "5803-2",
+        "display": "pH of Urine by Test strip",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-11-15T15:47:06+00:00",
+      "id": "4091b9f5-1779-c891-90d2-92f611349b90",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "pH",
+        "value": 5.103
+      }
+    },
+    {
+      "code": {
+        "code": "5804-0",
+        "display": "Protein [Mass/volume] in Urine by Test strip",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-11-15T15:47:06+00:00",
+      "id": "4091b9f5-1779-c891-7906-f8046eff9cd5",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mg/dL",
+        "value": 2.9232
+      }
+    },
+    {
+      "code": {
+        "code": "5821-4",
+        "display": "Leukocytes [#/area] in Urine sediment by Microscopy high power field",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-11-15T15:47:06+00:00",
+      "id": "4091b9f5-1779-c891-6dbe-00acc6162263",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "/[HPF]",
+        "value": 29.34
+      }
+    },
+    {
+      "code": {
+        "code": "13945-1",
+        "display": "Erythrocytes [#/area] in Urine sediment by Microscopy high power field",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-11-15T15:47:06+00:00",
+      "id": "4091b9f5-1779-c891-9679-8a22cf74dad5",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "/[HPF]",
+        "value": 2.6352
+      }
+    },
+    {
+      "code": {
+        "code": "5787-7",
+        "display": "Epithelial cells [#/area] in Urine sediment by Microscopy high power field",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-11-15T15:47:06+00:00",
+      "id": "4091b9f5-1779-c891-4f64-5ab37a86c6ad",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "/[HPF]",
+        "value": 1.0364
+      }
+    }
+  ],
+  "patient": {
+    "address": [
+      {
+        "city": "Methuen",
+        "state": "MA"
+      }
+    ],
+    "birthDate": "2010-11-11",
+    "gender": "female",
+    "id": "4091b9f5-1779-c891-ea3d-0ef10828bcbd",
+    "name": [
+      {
+        "family": "Roberts511",
+        "given": [
+          "Billie243",
+          "Reina25"
+        ]
+      }
+    ],
+    "resourceType": "Patient"
+  },
+  "report": {
+    "code": {
+      "code": "34117-2",
+      "display": "History and physical note",
+      "system": "http://loinc.org"
+    },
+    "effectiveDateTime": "2026-07-08T21:21:39+00:00",
+    "id": "16620353-58e0-b8e9-6da6-350ed6dc2b19",
+    "resourceType": "DiagnosticReport",
+    "status": "preliminary"
+  }
+}

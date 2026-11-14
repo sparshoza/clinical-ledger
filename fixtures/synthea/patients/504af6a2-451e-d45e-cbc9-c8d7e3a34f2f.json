@@ -1,0 +1,188 @@
+{
+  "conditions": [
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "446096008",
+        "display": "Perennial allergic rhinitis (disorder)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "504af6a2-451e-d45e-03e7-d11755674e26",
+      "onsetDateTime": "2014-11-07T14:59:48+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "24079001",
+        "display": "Atopic dermatitis (disorder)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "504af6a2-451e-d45e-685a-0c2eabb57b27",
+      "onsetDateTime": "2015-09-12T14:59:48+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "314529007",
+        "display": "Medication review due (situation)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "504af6a2-451e-d45e-35e4-5f35fd293e9a",
+      "onsetDateTime": "2017-08-02T14:59:48+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "43878008",
+        "display": "Streptococcal sore throat (disorder)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "504af6a2-451e-d45e-0bf5-08fd6db48a1a",
+      "onsetDateTime": "2017-08-23T14:59:48+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "314529007",
+        "display": "Medication review due (situation)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "504af6a2-451e-d45e-04cd-a8cda8c9a383",
+      "onsetDateTime": "2018-08-08T14:59:48+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "278602001",
+        "display": "Loose dental filling (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "504af6a2-451e-d45e-36c2-dd890b225aba",
+      "onsetDateTime": "2018-08-15T17:22:33+00:00",
+      "resourceType": "Condition"
+    }
+  ],
+  "observations": [
+    {
+      "code": {
+        "code": "6085-5",
+        "display": "Common Ragweed IgE Ab [Units/volume] in Serum",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-08-27T15:26:52+00:00",
+      "id": "504af6a2-451e-d45e-c8dc-999f3999b878",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "kU/L",
+        "value": 0.18861
+      }
+    },
+    {
+      "code": {
+        "code": "6833-8",
+        "display": "Cat dander IgE Ab [Units/volume] in Serum",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-08-27T15:26:52+00:00",
+      "id": "504af6a2-451e-d45e-cd9a-c12459221c6d",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "kU/L",
+        "value": 0.12245
+      }
+    },
+    {
+      "code": {
+        "code": "6095-4",
+        "display": "American house dust mite IgE Ab [Units/volume] in Serum",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-08-27T15:26:52+00:00",
+      "id": "504af6a2-451e-d45e-4d4b-66054b8ce581",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "kU/L",
+        "value": 0.009845
+      }
+    },
+    {
+      "code": {
+        "code": "6075-6",
+        "display": "Cladosporium herbarum IgE Ab [Units/volume] in Serum",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-08-27T15:26:52+00:00",
+      "id": "504af6a2-451e-d45e-185f-9e7c744621f3",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "kU/L",
+        "value": 0.33664
+      }
+    },
+    {
+      "code": {
+        "code": "6844-5",
+        "display": "Honey bee IgE Ab [Units/volume] in Serum",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-08-27T15:26:52+00:00",
+      "id": "504af6a2-451e-d45e-5ebd-0be8dfe7300f",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "kU/L",
+        "value": 0.051795
+      }
+    },
+    {
+      "code": {
+        "code": "6158-0",
+        "display": "Latex IgE Ab [Units/volume] in Serum",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-08-27T15:26:52+00:00",
+      "id": "504af6a2-451e-d45e-be81-dc29b84cc6f7",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "kU/L",
+        "value": 0.16698
+      }
+    }
+  ],
+  "patient": {
+    "address": [
+      {
+        "city": "Belmont",
+        "state": "MA"
+      }
+    ],
+    "birthDate": "2012-08-22",
+    "gender": "female",
+    "id": "504af6a2-451e-d45e-cbc9-c8d7e3a34f2f",
+    "name": [
+      {
+        "family": "Pagac496",
+        "given": [
+          "Albina13",
+          "Mazie442"
+        ]
+      }
+    ],
+    "resourceType": "Patient"
+  },
+  "report": {
+    "code": {
+      "code": "34117-2",
+      "display": "History and physical note",
+      "system": "http://loinc.org"
+    },
+    "effectiveDateTime": "2026-10-14T14:59:48+00:00",
+    "id": "feb5ecde-8a01-cfc2-68c8-a8544c591322",
+    "resourceType": "DiagnosticReport",
+    "status": "preliminary"
+  }
+}

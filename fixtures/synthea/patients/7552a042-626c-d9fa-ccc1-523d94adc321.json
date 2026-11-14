@@ -1,0 +1,187 @@
+{
+  "conditions": [
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "224299000",
+        "display": "Received higher education (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "7552a042-626c-d9fa-df5e-62f1c968bda3",
+      "onsetDateTime": "1996-09-27T18:51:05+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "266934004",
+        "display": "Transport problem (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "7552a042-626c-d9fa-7715-17efeedd34bf",
+      "onsetDateTime": "1996-09-27T18:51:05+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "713458007",
+        "display": "Lack of access to transportation (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "7552a042-626c-d9fa-0e2a-ce6ae28a1693",
+      "onsetDateTime": "1997-09-05T18:43:26+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "422650009",
+        "display": "Social isolation (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "7552a042-626c-d9fa-fd78-422a0bedaec8",
+      "onsetDateTime": "1997-09-05T18:43:26+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "423315002",
+        "display": "Limited social contact (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "7552a042-626c-d9fa-f986-1decf7b81733",
+      "onsetDateTime": "1997-10-03T18:34:27+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "314529007",
+        "display": "Medication review due (situation)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "7552a042-626c-d9fa-3d40-f9e203bfa7ea",
+      "onsetDateTime": "2000-10-06T17:58:36+00:00",
+      "resourceType": "Condition"
+    }
+  ],
+  "observations": [
+    {
+      "code": {
+        "code": "38483-4",
+        "display": "Creatinine [Mass/volume] in Blood",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2026-08-28T17:58:36+00:00",
+      "id": "7552a042-626c-d9fa-b7fc-4821704362e2",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mg/dL",
+        "value": 0.79
+      }
+    },
+    {
+      "code": {
+        "code": "49765-1",
+        "display": "Calcium [Mass/volume] in Blood",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2026-08-28T17:58:36+00:00",
+      "id": "7552a042-626c-d9fa-a26c-bbf2375ab96a",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mg/dL",
+        "value": 8.83
+      }
+    },
+    {
+      "code": {
+        "code": "2947-0",
+        "display": "Sodium [Moles/volume] in Blood",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2026-08-28T17:58:36+00:00",
+      "id": "7552a042-626c-d9fa-1802-de5d6dfb08f8",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mmol/L",
+        "value": 143.5
+      }
+    },
+    {
+      "code": {
+        "code": "6298-4",
+        "display": "Potassium [Moles/volume] in Blood",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2026-08-28T17:58:36+00:00",
+      "id": "7552a042-626c-d9fa-66f4-e4ff08a9f0b1",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mmol/L",
+        "value": 4.53
+      }
+    },
+    {
+      "code": {
+        "code": "2069-3",
+        "display": "Chloride [Moles/volume] in Blood",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2026-08-28T17:58:36+00:00",
+      "id": "7552a042-626c-d9fa-8f4a-b1a4d00f1548",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mmol/L",
+        "value": 102.99
+      }
+    },
+    {
+      "code": {
+        "code": "20565-8",
+        "display": "Carbon dioxide, total [Moles/volume] in Blood",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2026-08-28T17:58:36+00:00",
+      "id": "7552a042-626c-d9fa-46a5-04c380277172",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mmol/L",
+        "value": 25.85
+      }
+    }
+  ],
+  "patient": {
+    "address": [
+      {
+        "city": "Boston",
+        "state": "MA"
+      }
+    ],
+    "birthDate": "1978-08-04",
+    "gender": "female",
+    "id": "7552a042-626c-d9fa-ccc1-523d94adc321",
+    "name": [
+      {
+        "family": "Cronin387",
+        "given": [
+          "Christal240"
+        ]
+      }
+    ],
+    "resourceType": "Patient"
+  },
+  "report": {
+    "code": {
+      "code": "34117-2",
+      "display": "History and physical note",
+      "system": "http://loinc.org"
+    },
+    "effectiveDateTime": "2026-09-11T17:58:36+00:00",
+    "id": "2714b4c0-b99a-58dc-ba17-fa17697927a5",
+    "resourceType": "DiagnosticReport",
+    "status": "preliminary"
+  }
+}

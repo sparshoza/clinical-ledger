@@ -1,0 +1,187 @@
+{
+  "conditions": [
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "224299000",
+        "display": "Received higher education (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "3a58586c-0394-ac00-0d23-64b8a6c70dc8",
+      "onsetDateTime": "1980-01-29T04:21:19+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "162864005",
+        "display": "Body mass index 30+ - obesity (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "3a58586c-0394-ac00-b9a0-f9d3ff8c16c9",
+      "onsetDateTime": "1987-02-10T03:41:07+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "314529007",
+        "display": "Medication review due (situation)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "3a58586c-0394-ac00-e04e-b0d53593555d",
+      "onsetDateTime": "2013-12-17T03:41:07+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "160903007",
+        "display": "Full-time employment (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "3a58586c-0394-ac00-66c4-9285791895c8",
+      "onsetDateTime": "2013-12-17T04:32:24+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "73595000",
+        "display": "Stress (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "3a58586c-0394-ac00-03f3-e5bc7a9a9c15",
+      "onsetDateTime": "2014-12-23T04:32:45+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "66383009",
+        "display": "Gingivitis (disorder)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "3a58586c-0394-ac00-feb2-61b81facc0d4",
+      "onsetDateTime": "2017-01-03T05:56:23+00:00",
+      "resourceType": "Condition"
+    }
+  ],
+  "observations": [
+    {
+      "code": {
+        "code": "18262-6",
+        "display": "Cholesterol in LDL [Mass/volume] in Serum or Plasma by Direct assay",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2024-05-08T03:57:06+00:00",
+      "id": "3a58586c-0394-ac00-4863-a41ab0ac62b3",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mg/dL",
+        "value": 119.69
+      }
+    },
+    {
+      "code": {
+        "code": "2085-9",
+        "display": "Cholesterol in HDL [Mass/volume] in Serum or Plasma",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2024-05-08T03:57:06+00:00",
+      "id": "3a58586c-0394-ac00-cc09-69927059737f",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mg/dL",
+        "value": 49.697
+      }
+    },
+    {
+      "code": {
+        "code": "4548-4",
+        "display": "Hemoglobin A1c/Hemoglobin.total in Blood",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2024-05-08T03:57:06+00:00",
+      "id": "3a58586c-0394-ac00-d4cf-f5561c987430",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "%",
+        "value": 5.65
+      }
+    },
+    {
+      "code": {
+        "code": "6301-6",
+        "display": "INR in Platelet poor plasma by Coagulation assay",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2024-05-08T03:57:06+00:00",
+      "id": "3a58586c-0394-ac00-3d28-d0b174fccdb7",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "{INR}",
+        "value": 1.092
+      }
+    },
+    {
+      "code": {
+        "code": "3173-2",
+        "display": "aPTT in Blood by Coagulation assay",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2024-05-08T03:57:06+00:00",
+      "id": "3a58586c-0394-ac00-ae40-2177bd5f1220",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "s",
+        "value": 25.789
+      }
+    },
+    {
+      "code": {
+        "code": "89579-7",
+        "display": "Troponin I.cardiac [Mass/volume] in Serum or Plasma by High sensitivity method",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2024-05-08T03:57:06+00:00",
+      "id": "3a58586c-0394-ac00-7ed3-7fad5a8df243",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "ng/L",
+        "value": 100.96
+      }
+    }
+  ],
+  "patient": {
+    "address": [
+      {
+        "city": "Cambridge",
+        "state": "MA"
+      }
+    ],
+    "birthDate": "1961-12-05",
+    "gender": "female",
+    "id": "3a58586c-0394-ac00-30cd-00ca8708ca39",
+    "name": [
+      {
+        "family": "Hammes673",
+        "given": [
+          "Audrie782"
+        ]
+      }
+    ],
+    "resourceType": "Patient"
+  },
+  "report": {
+    "code": {
+      "code": "34117-2",
+      "display": "History and physical note",
+      "system": "http://loinc.org"
+    },
+    "effectiveDateTime": "2026-02-24T03:41:07+00:00",
+    "id": "259e5e46-1f4f-be66-ec53-9e4279ca37a5",
+    "resourceType": "DiagnosticReport",
+    "status": "preliminary"
+  }
+}

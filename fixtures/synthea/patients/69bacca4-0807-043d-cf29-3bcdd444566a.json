@@ -1,0 +1,188 @@
+{
+  "conditions": [
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "105531004",
+        "display": "Housing unsatisfactory (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "69bacca4-0807-043d-a789-bf7c5d6cbb06",
+      "onsetDateTime": "1997-10-27T20:34:12+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "224299000",
+        "display": "Received higher education (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "69bacca4-0807-043d-4033-c84394131f3f",
+      "onsetDateTime": "1997-10-27T20:34:12+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "162864005",
+        "display": "Body mass index 30+ - obesity (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "69bacca4-0807-043d-b72d-20345e67aa36",
+      "onsetDateTime": "2004-11-08T20:01:27+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "10939881000119105",
+        "display": "Unhealthy alcohol drinking behavior (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "69bacca4-0807-043d-036c-5012d3d8cfef",
+      "onsetDateTime": "2004-11-08T22:04:23+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "714628002",
+        "display": "Prediabetes (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "69bacca4-0807-043d-ecc2-06b93da7af01",
+      "onsetDateTime": "2007-11-12T20:01:27+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "161744009",
+        "display": "Past pregnancy history of miscarriage (situation)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "69bacca4-0807-043d-dd6f-399480642892",
+      "onsetDateTime": "2008-07-12T20:01:27+00:00",
+      "resourceType": "Condition"
+    }
+  ],
+  "observations": [
+    {
+      "code": {
+        "code": "785-6",
+        "display": "MCH [Entitic mass] by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-09-22T20:01:27+00:00",
+      "id": "69bacca4-0807-043d-22a6-1c2ff005b7d4",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "pg",
+        "value": 28.293
+      }
+    },
+    {
+      "code": {
+        "code": "786-4",
+        "display": "MCHC [Entitic Mass/volume] in Red Blood Cells by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-09-22T20:01:27+00:00",
+      "id": "69bacca4-0807-043d-8c4b-7882a35b5de1",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "g/dL",
+        "value": 35.897
+      }
+    },
+    {
+      "code": {
+        "code": "788-0",
+        "display": "Erythrocyte [DistWidth] in Blood by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-09-22T20:01:27+00:00",
+      "id": "69bacca4-0807-043d-f460-dd2466af5f24",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "fL",
+        "value": 40.113
+      }
+    },
+    {
+      "code": {
+        "code": "777-3",
+        "display": "Platelets [#/volume] in Blood by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-09-22T20:01:27+00:00",
+      "id": "69bacca4-0807-043d-891e-075f4bbeaa37",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "10*3/uL",
+        "value": 360.04
+      }
+    },
+    {
+      "code": {
+        "code": "32207-3",
+        "display": "Platelet distribution width [Entitic volume] in Blood by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-09-22T20:01:27+00:00",
+      "id": "69bacca4-0807-043d-c924-fd559220e193",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "fL",
+        "value": 14.717
+      }
+    },
+    {
+      "code": {
+        "code": "32623-1",
+        "display": "Platelet [Entitic mean volume] in Blood by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-09-22T20:01:27+00:00",
+      "id": "69bacca4-0807-043d-e968-5f041ed27242",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "fL",
+        "value": 9.4345
+      }
+    }
+  ],
+  "patient": {
+    "address": [
+      {
+        "city": "Revere",
+        "state": "MA"
+      }
+    ],
+    "birthDate": "1979-09-03",
+    "gender": "female",
+    "id": "69bacca4-0807-043d-cf29-3bcdd444566a",
+    "name": [
+      {
+        "family": "Braun514",
+        "given": [
+          "Christeen33",
+          "Angeline97"
+        ]
+      }
+    ],
+    "resourceType": "Patient"
+  },
+  "report": {
+    "code": {
+      "code": "34117-2",
+      "display": "History and physical note",
+      "system": "http://loinc.org"
+    },
+    "effectiveDateTime": "2026-08-17T20:01:27+00:00",
+    "id": "99e63c41-eddb-fbcc-9905-b4b4b682674b",
+    "resourceType": "DiagnosticReport",
+    "status": "preliminary"
+  }
+}

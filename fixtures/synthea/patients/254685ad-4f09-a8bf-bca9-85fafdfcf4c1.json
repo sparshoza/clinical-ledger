@@ -1,0 +1,188 @@
+{
+  "conditions": [
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "314529007",
+        "display": "Medication review due (situation)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "254685ad-4f09-a8bf-cfba-b01ba692bc2b",
+      "onsetDateTime": "2017-06-18T03:22:48+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "160968000",
+        "display": "Risk activity involvement (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "254685ad-4f09-a8bf-d365-cfb04e51d3c6",
+      "onsetDateTime": "2017-06-18T04:25:51+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "444814009",
+        "display": "Viral sinusitis (disorder)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "254685ad-4f09-a8bf-644a-16fd5f16e6ac",
+      "onsetDateTime": "2017-11-26T10:22:48+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "105531004",
+        "display": "Housing unsatisfactory (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "254685ad-4f09-a8bf-837d-5cd141eaa803",
+      "onsetDateTime": "2018-06-24T04:17:48+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "224299000",
+        "display": "Received higher education (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "254685ad-4f09-a8bf-ab8c-2477e966f043",
+      "onsetDateTime": "2018-06-24T04:17:48+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "160904001",
+        "display": "Part-time employment (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "254685ad-4f09-a8bf-2643-c3d6dcba8f1c",
+      "onsetDateTime": "2018-06-24T04:17:48+00:00",
+      "resourceType": "Condition"
+    }
+  ],
+  "observations": [
+    {
+      "code": {
+        "code": "49765-1",
+        "display": "Calcium [Mass/volume] in Blood",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-07-06T03:22:48+00:00",
+      "id": "254685ad-4f09-a8bf-0838-81bb1646437d",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mg/dL",
+        "value": 9.19
+      }
+    },
+    {
+      "code": {
+        "code": "2947-0",
+        "display": "Sodium [Moles/volume] in Blood",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-07-06T03:22:48+00:00",
+      "id": "254685ad-4f09-a8bf-b619-b952d48619c7",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mmol/L",
+        "value": 136.06
+      }
+    },
+    {
+      "code": {
+        "code": "6298-4",
+        "display": "Potassium [Moles/volume] in Blood",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-07-06T03:22:48+00:00",
+      "id": "254685ad-4f09-a8bf-e92b-eef439eb5800",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mmol/L",
+        "value": 4.2
+      }
+    },
+    {
+      "code": {
+        "code": "2069-3",
+        "display": "Chloride [Moles/volume] in Blood",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-07-06T03:22:48+00:00",
+      "id": "254685ad-4f09-a8bf-8e90-d6285e21c6f5",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mmol/L",
+        "value": 107.08
+      }
+    },
+    {
+      "code": {
+        "code": "20565-8",
+        "display": "Carbon dioxide, total [Moles/volume] in Blood",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-07-06T03:22:48+00:00",
+      "id": "254685ad-4f09-a8bf-7f59-e09ccd65606a",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mmol/L",
+        "value": 26.98
+      }
+    },
+    {
+      "code": {
+        "code": "32693-4",
+        "display": "Lactate [Moles/volume] in Blood",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2025-10-15T03:22:48+00:00",
+      "id": "254685ad-4f09-a8bf-f39f-fbfdd8171edf",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mmol/L",
+        "value": 1.8499
+      }
+    }
+  ],
+  "patient": {
+    "address": [
+      {
+        "city": "Swansea",
+        "state": "MA"
+      }
+    ],
+    "birthDate": "2000-04-30",
+    "gender": "male",
+    "id": "254685ad-4f09-a8bf-bca9-85fafdfcf4c1",
+    "name": [
+      {
+        "family": "Jast432",
+        "given": [
+          "Antoine384",
+          "Kerry175"
+        ]
+      }
+    ],
+    "resourceType": "Patient"
+  },
+  "report": {
+    "code": {
+      "code": "34117-2",
+      "display": "History and physical note",
+      "system": "http://loinc.org"
+    },
+    "effectiveDateTime": "2025-10-15T03:22:48+00:00",
+    "id": "f1862236-cad9-65f8-733b-952b703b52a7",
+    "resourceType": "DiagnosticReport",
+    "status": "preliminary"
+  }
+}

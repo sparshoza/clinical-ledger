@@ -1,0 +1,188 @@
+{
+  "conditions": [
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "224299000",
+        "display": "Received higher education (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "abbe7ce8-820b-cb76-bfdb-d3145c6eadbb",
+      "onsetDateTime": "1984-01-04T09:08:51+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "162864005",
+        "display": "Body mass index 30+ - obesity (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "abbe7ce8-820b-cb76-dcf5-e96b15637066",
+      "onsetDateTime": "1997-01-22T08:09:41+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "95417003",
+        "display": "Primary fibromyalgia syndrome (disorder)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "abbe7ce8-820b-cb76-f9c5-bc8b908ad455",
+      "onsetDateTime": "2001-02-09T08:09:41+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "714628002",
+        "display": "Prediabetes (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "abbe7ce8-820b-cb76-3d55-fd847b85abb2",
+      "onsetDateTime": "2005-11-16T08:09:41+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "271737000",
+        "display": "Anemia (disorder)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "abbe7ce8-820b-cb76-ccac-4a853806bbdd",
+      "onsetDateTime": "2005-11-16T08:09:41+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "254837009",
+        "display": "Malignant neoplasm of breast (disorder)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "abbe7ce8-820b-cb76-76cf-28bc2190bc83",
+      "onsetDateTime": "2011-01-25T09:34:26+00:00",
+      "resourceType": "Condition"
+    }
+  ],
+  "observations": [
+    {
+      "code": {
+        "code": "2093-3",
+        "display": "Cholesterol [Mass/volume] in Serum or Plasma",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2026-10-14T08:09:41+00:00",
+      "id": "abbe7ce8-820b-cb76-6776-72087d5e4143",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mg/dL",
+        "value": 209.43
+      }
+    },
+    {
+      "code": {
+        "code": "2571-8",
+        "display": "Triglyceride [Mass/volume] in Serum or Plasma",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2026-10-14T08:09:41+00:00",
+      "id": "abbe7ce8-820b-cb76-5eb8-b342310725a2",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mg/dL",
+        "value": 131.77
+      }
+    },
+    {
+      "code": {
+        "code": "18262-6",
+        "display": "Cholesterol in LDL [Mass/volume] in Serum or Plasma by Direct assay",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2026-10-14T08:09:41+00:00",
+      "id": "abbe7ce8-820b-cb76-7f45-65c349a76ea2",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mg/dL",
+        "value": 129.69
+      }
+    },
+    {
+      "code": {
+        "code": "2085-9",
+        "display": "Cholesterol in HDL [Mass/volume] in Serum or Plasma",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2026-10-14T08:09:41+00:00",
+      "id": "abbe7ce8-820b-cb76-d2e2-ba3b1795ddca",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mg/dL",
+        "value": 53.38
+      }
+    },
+    {
+      "code": {
+        "code": "14959-1",
+        "display": "Microalbumin/Creatinine [Mass Ratio] in Urine",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2026-10-14T08:09:41+00:00",
+      "id": "abbe7ce8-820b-cb76-a12c-90288c6b3076",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mg/g",
+        "value": 16.51
+      }
+    },
+    {
+      "code": {
+        "code": "33914-3",
+        "display": "Glomerular filtration rate [Volume Rate/Area] in Serum or Plasma by Creatinine-based formula (MDRD)/1.73 sq M",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2026-10-14T08:09:41+00:00",
+      "id": "abbe7ce8-820b-cb76-2e05-209ae85b3960",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "mL/min/{1.73_m2}",
+        "value": 69.96
+      }
+    }
+  ],
+  "patient": {
+    "address": [
+      {
+        "city": "Norwood",
+        "state": "MA"
+      }
+    ],
+    "birthDate": "1965-11-10",
+    "gender": "female",
+    "id": "abbe7ce8-820b-cb76-8d0c-02fe9d9decb0",
+    "name": [
+      {
+        "family": "Harris789",
+        "given": [
+          "Angelyn934",
+          "Kandra693"
+        ]
+      }
+    ],
+    "resourceType": "Patient"
+  },
+  "report": {
+    "code": {
+      "code": "34117-2",
+      "display": "History and physical note",
+      "system": "http://loinc.org"
+    },
+    "effectiveDateTime": "2026-10-14T08:09:41+00:00",
+    "id": "6325b9a8-4562-201f-97af-0de9c8799e13",
+    "resourceType": "DiagnosticReport",
+    "status": "preliminary"
+  }
+}

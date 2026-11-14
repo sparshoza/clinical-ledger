@@ -1,0 +1,188 @@
+{
+  "conditions": [
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "314529007",
+        "display": "Medication review due (situation)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "cc63c2f1-1db0-28cb-85a1-22a653b9bad8",
+      "onsetDateTime": "2024-07-15T20:11:18+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "65363002",
+        "display": "Otitis media (disorder)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "cc63c2f1-1db0-28cb-c9ef-9c40ad230533",
+      "onsetDateTime": "2024-08-26T20:11:18+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "314529007",
+        "display": "Medication review due (situation)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "cc63c2f1-1db0-28cb-5896-8be087bd5504",
+      "onsetDateTime": "2024-12-23T20:11:18+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "314529007",
+        "display": "Medication review due (situation)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "cc63c2f1-1db0-28cb-3caf-f391334cb0ab",
+      "onsetDateTime": "2025-03-24T20:11:18+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "125605004",
+        "display": "Fracture of bone (disorder)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "cc63c2f1-1db0-28cb-5d51-955fed59a11b",
+      "onsetDateTime": "2025-07-07T20:11:18+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "16114001",
+        "display": "Fracture of ankle (disorder)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "cc63c2f1-1db0-28cb-72ef-4aec9abc0f1e",
+      "onsetDateTime": "2025-07-07T20:11:18+00:00",
+      "resourceType": "Condition"
+    }
+  ],
+  "observations": [
+    {
+      "code": {
+        "code": "785-6",
+        "display": "MCH [Entitic mass] by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2024-07-15T20:11:18+00:00",
+      "id": "cc63c2f1-1db0-28cb-0834-5272b6b14900",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "pg",
+        "value": 31.774
+      }
+    },
+    {
+      "code": {
+        "code": "786-4",
+        "display": "MCHC [Entitic Mass/volume] in Red Blood Cells by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2024-07-15T20:11:18+00:00",
+      "id": "cc63c2f1-1db0-28cb-ba33-b0ebfe1673df",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "g/dL",
+        "value": 33.51
+      }
+    },
+    {
+      "code": {
+        "code": "788-0",
+        "display": "Erythrocyte [DistWidth] in Blood by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2024-07-15T20:11:18+00:00",
+      "id": "cc63c2f1-1db0-28cb-1971-4c4f694f4f62",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "fL",
+        "value": 43.322
+      }
+    },
+    {
+      "code": {
+        "code": "777-3",
+        "display": "Platelets [#/volume] in Blood by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2024-07-15T20:11:18+00:00",
+      "id": "cc63c2f1-1db0-28cb-b7f4-31a745c34872",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "10*3/uL",
+        "value": 307.23
+      }
+    },
+    {
+      "code": {
+        "code": "32207-3",
+        "display": "Platelet distribution width [Entitic volume] in Blood by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2024-07-15T20:11:18+00:00",
+      "id": "cc63c2f1-1db0-28cb-f712-d85b0dea29e4",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "fL",
+        "value": 15.498
+      }
+    },
+    {
+      "code": {
+        "code": "32623-1",
+        "display": "Platelet [Entitic mean volume] in Blood by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "2024-07-15T20:11:18+00:00",
+      "id": "cc63c2f1-1db0-28cb-7024-458e7ab4060e",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "fL",
+        "value": 11.939
+      }
+    }
+  ],
+  "patient": {
+    "address": [
+      {
+        "city": "Woburn",
+        "state": "MA"
+      }
+    ],
+    "birthDate": "2024-07-15",
+    "gender": "male",
+    "id": "cc63c2f1-1db0-28cb-0324-8be7310ddadd",
+    "name": [
+      {
+        "family": "Wiza601",
+        "given": [
+          "Ahmed109",
+          "Douglass930"
+        ]
+      }
+    ],
+    "resourceType": "Patient"
+  },
+  "report": {
+    "code": {
+      "code": "34117-2",
+      "display": "History and physical note",
+      "system": "http://loinc.org"
+    },
+    "effectiveDateTime": "2026-06-22T20:11:18+00:00",
+    "id": "9e9128d5-63bc-08f4-0fb9-146ffd8a277c",
+    "resourceType": "DiagnosticReport",
+    "status": "preliminary"
+  }
+}

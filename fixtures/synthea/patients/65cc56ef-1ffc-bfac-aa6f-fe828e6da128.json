@@ -1,0 +1,177 @@
+{
+  "conditions": [
+    {
+      "clinicalStatus": "resolved",
+      "code": {
+        "code": "314529007",
+        "display": "Medication review due (situation)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "65cc56ef-1ffc-bfac-a75e-13bf98209719",
+      "onsetDateTime": "1979-03-04T05:22:01+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "128613002",
+        "display": "Seizure disorder (disorder)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "65cc56ef-1ffc-bfac-3de1-dadb81fd4214",
+      "onsetDateTime": "1979-05-18T05:22:01+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "1290882004",
+        "display": "History of seizure (situation)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "65cc56ef-1ffc-bfac-9837-3ee68260a0e0",
+      "onsetDateTime": "1979-05-18T05:22:01+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "314529007",
+        "display": "Medication review due (situation)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "65cc56ef-1ffc-bfac-6c6f-fbbf242106e9",
+      "onsetDateTime": "1979-06-10T05:22:01+00:00",
+      "resourceType": "Condition"
+    },
+    {
+      "clinicalStatus": "active",
+      "code": {
+        "code": "876882001",
+        "display": "Died in hospice (finding)",
+        "system": "http://snomed.info/sct"
+      },
+      "id": "65cc56ef-1ffc-bfac-5343-1f6e91483e21",
+      "onsetDateTime": "1980-01-27T05:22:01+00:00",
+      "resourceType": "Condition"
+    }
+  ],
+  "observations": [
+    {
+      "code": {
+        "code": "785-6",
+        "display": "MCH [Entitic mass] by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "1979-03-04T05:22:01+00:00",
+      "id": "65cc56ef-1ffc-bfac-6ff9-c1698e2e6e6d",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "pg",
+        "value": 29.843
+      }
+    },
+    {
+      "code": {
+        "code": "786-4",
+        "display": "MCHC [Entitic Mass/volume] in Red Blood Cells by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "1979-03-04T05:22:01+00:00",
+      "id": "65cc56ef-1ffc-bfac-23f7-b15d2d9ed1c2",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "g/dL",
+        "value": 35.936
+      }
+    },
+    {
+      "code": {
+        "code": "788-0",
+        "display": "Erythrocyte [DistWidth] in Blood by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "1979-03-04T05:22:01+00:00",
+      "id": "65cc56ef-1ffc-bfac-04a3-e868bb9e5af1",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "fL",
+        "value": 41.969
+      }
+    },
+    {
+      "code": {
+        "code": "777-3",
+        "display": "Platelets [#/volume] in Blood by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "1979-03-04T05:22:01+00:00",
+      "id": "65cc56ef-1ffc-bfac-be4b-73144009f9dd",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "10*3/uL",
+        "value": 242.22
+      }
+    },
+    {
+      "code": {
+        "code": "32207-3",
+        "display": "Platelet distribution width [Entitic volume] in Blood by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "1979-03-04T05:22:01+00:00",
+      "id": "65cc56ef-1ffc-bfac-5ea8-7cb3c98509b9",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "fL",
+        "value": 13.216
+      }
+    },
+    {
+      "code": {
+        "code": "32623-1",
+        "display": "Platelet [Entitic mean volume] in Blood by Automated count",
+        "system": "http://loinc.org"
+      },
+      "effectiveDateTime": "1979-03-04T05:22:01+00:00",
+      "id": "65cc56ef-1ffc-bfac-d555-c610726a2cde",
+      "resourceType": "Observation",
+      "valueQuantity": {
+        "unit": "fL",
+        "value": 11.65
+      }
+    }
+  ],
+  "patient": {
+    "address": [
+      {
+        "city": "Cambridge",
+        "state": "MA"
+      }
+    ],
+    "birthDate": "1979-03-04",
+    "gender": "female",
+    "id": "65cc56ef-1ffc-bfac-aa6f-fe828e6da128",
+    "name": [
+      {
+        "family": "Schuster709",
+        "given": [
+          "Chantay958",
+          "Mao115"
+        ]
+      }
+    ],
+    "resourceType": "Patient"
+  },
+  "report": {
+    "code": {
+      "code": "34117-2",
+      "display": "History and physical note",
+      "system": "http://loinc.org"
+    },
+    "effectiveDateTime": "1980-02-03T05:22:01+00:00",
+    "id": "fcd0ec9d-0380-884d-0db0-efdd571abbf7",
+    "resourceType": "DiagnosticReport",
+    "status": "preliminary"
+  }
+}
