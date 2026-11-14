@@ -4,6 +4,7 @@ import os
 import uuid
 from collections.abc import Callable, Iterator
 from pathlib import Path
+from typing import TYPE_CHECKING
 from urllib.parse import quote, urlsplit, urlunsplit
 
 import psycopg
@@ -11,6 +12,9 @@ import pytest
 from alembic import command
 from alembic.config import Config
 from dotenv import load_dotenv
+
+if TYPE_CHECKING:
+    from clinical_ledger.settings import Settings
 
 ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(ROOT / ".env")
@@ -97,6 +101,30 @@ def make_tenant(owner_conn: psycopg.Connection, clean_tables: None) -> Callable[
         return tenant_id
 
     return _make
+
+
+def make_settings(**overrides: object) -> "Settings":
+    """Settings for tests: in-memory storage and no real endpoints."""
+    from clinical_ledger.settings import Settings
+
+    values: dict[str, object] = {
+        "database_url": "postgresql://unused@localhost/unused",
+        "s3_backend": "memory",
+        "s3_endpoint_url": None,
+        "s3_bucket": "clinical-ledger",
+        "s3_access_key_id": "test",
+        "s3_secret_access_key": "test",
+        "s3_region": "us-east-1",
+        "jwt_secret": "test-jwt-secret-that-is-long-enough-32b",
+        "cron_secret": "test-cron-secret",
+    }
+    values.update(overrides)
+    return Settings(_env_file=None, **values)  # type: ignore[call-arg, arg-type]
+
+
+@pytest.fixture
+def settings() -> "Settings":
+    return make_settings()
 
 
 @pytest.fixture
