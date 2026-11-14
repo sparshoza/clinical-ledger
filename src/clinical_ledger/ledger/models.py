@@ -21,6 +21,22 @@ class VersionRef:
 
 
 @dataclass(frozen=True)
+class RecordSummary:
+    id: UUID
+    kind: str
+    subject_ref: str
+    latest_version_no: int
+    updated_at: datetime
+
+
+@dataclass(frozen=True)
+class RecordContent:
+    ref: VersionRef
+    content: bytes
+    media_type: str
+
+
+@dataclass(frozen=True)
 class EventRow:
     seq: int
     event_type: str
