@@ -37,6 +37,13 @@ dev = [
 requires = ["hatchling>=1.25"]
 build-backend = "hatchling.build"
 
+[tool.vercel]
+entrypoint = "clinical_ledger.main:app"
+
+[tool.vercel.fastapi.static]
+# The built page is served from the CDN; keep it out of the function bundle.
+exclude = true
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/clinical_ledger"]
 

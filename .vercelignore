@@ -1,0 +1,18 @@
+# Uploaded to the build: source, lockfiles and config. Everything else stays local.
+.venv/
+**/__pycache__/
+**/node_modules/
+web/dist/
+web/test-results/
+web/playwright-report/
+bench/results/
+.env
+.env.*
+!.env.example
+.claude/
+.impeccable/
+.superpowers/
+CLAUDE.md
+PRODUCT.md
+DESIGN.md
+*.tsbuildinfo

@@ -25,7 +25,7 @@ web/playwright-report/
 # Benchmark raw output (published results live in docs/benchmarks.md)
 bench/results/
 
-# AI assistant and design-tool working files (kept local, not part of the product)
+# Local working notes (not part of the product)
 .claude/
 CLAUDE.md
 PRODUCT.md
@@ -38,6 +38,6 @@ Thumbs.db
 .idea/
 .vscode/
 
-# Local build tooling
+# Local tooling
 .superpowers/
 *.tsbuildinfo
