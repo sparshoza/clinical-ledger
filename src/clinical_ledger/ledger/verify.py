@@ -25,6 +25,10 @@ class VerifyResult:
     checked_blobs: int
     first_broken_seq: int | None
     reason: Reason | None
+    # For a chain break: the hash the ledger holds and the one recomputed from the fields
+    # (for a broken link, the previous hash carried forward and the one it should be).
+    stored_hash: str | None = None
+    computed_hash: str | None = None
 
 
 def verify_chain(
@@ -49,7 +53,8 @@ def verify_chain(
                 (tenant_id, start_seq),
             ).fetchone()
             if anchored is None or str(anchored[0]) != prev_hash:
-                return VerifyResult(False, 0, 0, start_seq, "hash_mismatch")
+                stored = None if anchored is None else str(anchored[0])
+                return VerifyResult(False, 0, 0, start_seq, "hash_mismatch", stored, prev_hash)
 
     checked = 0
     with conn.cursor(name="verify_events") as cursor:
@@ -65,7 +70,9 @@ def verify_chain(
             stored_prev, stored_hash = str(row[8]), str(row[9])
             checked += 1
             if stored_prev != prev_hash:
-                return VerifyResult(False, checked, 0, int(seq), "broken_link")
+                return VerifyResult(
+                    False, checked, 0, int(seq), "broken_link", stored_prev, prev_hash
+                )
             fields = event_hash_fields(
                 tenant_id=tenant_id,
                 seq=int(seq),
@@ -77,8 +84,11 @@ def verify_chain(
                 occurred_at=occurred_at,
                 payload=payload,
             )
-            if compute_event_hash(prev_hash, fields) != stored_hash:
-                return VerifyResult(False, checked, 0, int(seq), "hash_mismatch")
+            computed = compute_event_hash(prev_hash, fields)
+            if computed != stored_hash:
+                return VerifyResult(
+                    False, checked, 0, int(seq), "hash_mismatch", stored_hash, computed
+                )
             prev_hash = stored_hash
 
     blobs = conn.execute(

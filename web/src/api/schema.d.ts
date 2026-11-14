@@ -495,12 +495,22 @@ export interface components {
             checked_blobs: number;
             /** Checked Events */
             checked_events: number;
+            /**
+             * Computed Hash
+             * @description For a chain break, the hash recomputed from the entry's fields.
+             */
+            computed_hash?: string | null;
             /** First Broken Seq */
             first_broken_seq: number | null;
             /** Ok */
             ok: boolean;
             /** Reason */
             reason: ("hash_mismatch" | "broken_link" | "blob_mismatch") | null;
+            /**
+             * Stored Hash
+             * @description For a chain break, the hash the ledger holds at that entry.
+             */
+            stored_hash?: string | null;
         };
         /** VersionCreate */
         VersionCreate: {

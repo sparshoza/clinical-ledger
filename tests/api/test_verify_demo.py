@@ -47,6 +47,8 @@ def test_tamper_event_then_verify_reports_target_seq(
     assert result["ok"] is False
     assert result["first_broken_seq"] == target
     assert result["reason"] == "hash_mismatch"
+    assert result["stored_hash"] != result["computed_hash"]
+    assert len(result["computed_hash"]) == 64
 
 
 def test_tamper_blob_then_read_returns_409_and_verify_reports_blob_mismatch(

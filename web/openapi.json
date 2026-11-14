@@ -588,6 +588,18 @@
             "title": "Checked Events",
             "type": "integer"
           },
+          "computed_hash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "For a chain break, the hash recomputed from the entry's fields.",
+            "title": "Computed Hash"
+          },
           "first_broken_seq": {
             "anyOf": [
               {
@@ -618,6 +630,18 @@
               }
             ],
             "title": "Reason"
+          },
+          "stored_hash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "For a chain break, the hash the ledger holds at that entry.",
+            "title": "Stored Hash"
           }
         },
         "required": [

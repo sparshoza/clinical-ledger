@@ -3,7 +3,7 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from clinical_ledger.auth.permissions import Permission
 from clinical_ledger.db import tenant_transaction
@@ -26,6 +26,12 @@ class VerifyOut(BaseModel):
     checked_blobs: int
     first_broken_seq: int | None
     reason: Reason | None
+    stored_hash: str | None = Field(
+        None, description="For a chain break, the hash the ledger holds at that entry."
+    )
+    computed_hash: str | None = Field(
+        None, description="For a chain break, the hash recomputed from the entry's fields."
+    )
 
 
 @router.post("/verify", response_model=VerifyOut, summary="Verify the chain and stored content")
