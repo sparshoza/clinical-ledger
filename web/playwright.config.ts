@@ -18,7 +18,7 @@ export default defineConfig({
       command: "python -m uv run uvicorn clinical_ledger.main:app --port 8000",
       cwd: "..",
       url: "http://localhost:8000/api/v1/health",
-      env: { S3_BACKEND: "memory" },
+      env: { S3_BACKEND: "memory", DEMO_SIGNUPS_PER_HOUR: "1000" },
       reuseExistingServer: !process.env.CI,
       timeout: 60_000,
     },

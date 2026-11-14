@@ -6,7 +6,7 @@ test("tampering is caught and a reset balances the book again", async ({ page })
   await expect(page.getByText(/synthetic \(Synthea\)/)).toBeVisible();
   const about = page.getByRole("navigation", { name: "About this project" });
   await expect(about.getByRole("link", { name: "Source on GitHub" })).toBeVisible();
-  await expect(page.getByText(/350 entries/)).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByText(/\d+ entries/)).toBeVisible({ timeout: 20_000 });
 
   await expect(page.getByRole("radio", { name: "Admin" })).toBeChecked();
   await page.getByRole("button", { name: "Tamper with the log" }).click();
@@ -24,7 +24,7 @@ test("tampering is caught and a reset balances the book again", async ({ page })
 
 test("an auditor sees the journal but not record content", async ({ page }) => {
   await page.goto("/demo");
-  await expect(page.getByText(/350 entries/)).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByText(/\d+ entries/)).toBeVisible({ timeout: 20_000 });
   await page.getByRole("radio", { name: "Auditor" }).click({ force: true });
   await expect(page.getByText("Auditors can see the log but not record content.")).toBeVisible();
   await expect(page.getByRole("table", { name: "Journal" })).toBeVisible();

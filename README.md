@@ -9,10 +9,13 @@ A clinical record store where nothing is overwritten and any tampering is caught
 to a record is a new version, every action is a journal entry chained to the one before it by
 SHA-256, and a verify call walks the chain to find the first entry that no longer adds up.
 
-**Live demo: [clinical-ledger-weld.vercel.app](https://clinical-ledger-weld.vercel.app)**.
-Each visitor gets a private ledger with 75 synthetic records. Edit one, tamper with the journal
+**Live demo: [clinical-ledger-weld.vercel.app](https://clinical-ledger-weld.vercel.app)**. The
+home page explains the project next to your own live ledger; the console is at `/demo`. Each
+visitor gets a private ledger with 75 synthetic records. Edit one, tamper with the journal
 or a stored file, then verify and watch the break get caught. All data is synthetic, generated
 with [Synthea](https://synthetichealth.github.io/synthea/). No real patient data is used anywhere.
+
+![The demo console after tampering with the journal: entry 176 is struck through, with its stored and recomputed hashes, and the entries after it are marked as untrusted](docs/img/demo.png)
 
 ## What it shows
 

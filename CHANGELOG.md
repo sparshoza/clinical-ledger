@@ -4,6 +4,29 @@ All notable changes to this project are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow
 [Semantic Versioning](https://semver.org/).
 
+## [0.2.0] - 2026-11-15
+
+### Added
+
+- A home page that explains what the ledger does, beside the visitor's own live ledger with a
+  working Verify button. The console moves to `/demo`.
+- Limits that keep the shared demo available: 10 new demo ledgers per visitor address an hour
+  (addresses kept only as a keyed hash, for a day) and 300 new versions per ledger.
+
+### Changed
+
+- New slate and cobalt colour scheme. Red stays reserved for entries that do not reconcile.
+- Storage errors from the object store now return `503` problem responses, and any unexpected
+  error returns a problem response instead of plain text. One storage client is shared per
+  process, with connect and read timeouts.
+
+### Fixed
+
+- Every "Add a version" in the demo now changes the record; some demo edits used to repeat a
+  value already present and produce an empty comparison.
+- A returning visitor whose session had expired could start several new ledgers at once.
+- The nightly cleanup now deletes tampered file copies along with expired demo ledgers.
+
 ## [0.1.0] - 2026-11-15
 
 First public release.
