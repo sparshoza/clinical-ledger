@@ -26,3 +26,18 @@ def test_rejects_unknown_backend(required_env: None, monkeypatch: pytest.MonkeyP
     monkeypatch.setenv("S3_BACKEND", "ftp")
     with pytest.raises(ValueError):
         Settings(_env_file=None)  # type: ignore[call-arg]
+
+
+def test_ledger_database_url_wins_over_database_url(
+    required_env: None, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # Hosting integrations own DATABASE_URL and point it at the owner login; the app's own
+    # restricted connection goes in LEDGER_DATABASE_URL.
+    monkeypatch.setenv("LEDGER_DATABASE_URL", "postgresql://ledger_app:y@pooler/db")
+    settings = Settings(_env_file=None)  # type: ignore[call-arg]
+    assert settings.database_url == "postgresql://ledger_app:y@pooler/db"
+
+
+def test_database_url_still_works_alone(required_env: None) -> None:
+    settings = Settings(_env_file=None)  # type: ignore[call-arg]
+    assert settings.database_url == "postgresql://ledger_app:x@localhost/db"

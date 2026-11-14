@@ -3,13 +3,16 @@
 from functools import lru_cache
 from typing import Literal
 
+from pydantic import AliasChoices, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore", populate_by_name=True)
 
-    database_url: str
+    # The app's restricted (ledger_app) connection. LEDGER_DATABASE_URL wins because hosting
+    # integrations manage DATABASE_URL and point it at the owner login.
+    database_url: str = Field(validation_alias=AliasChoices("LEDGER_DATABASE_URL", "DATABASE_URL"))
     database_url_owner: str | None = None
 
     s3_backend: Literal["s3", "memory"] = "s3"
