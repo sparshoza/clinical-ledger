@@ -37,3 +37,6 @@ DESIGN.md
 Thumbs.db
 .idea/
 .vscode/
+
+# Local build tooling
+.superpowers/
