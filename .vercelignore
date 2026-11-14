@@ -3,7 +3,6 @@
 **/__pycache__/
 **/node_modules/
 web/dist/
-public/
 web/test-results/
 web/playwright-report/
 bench/results/
