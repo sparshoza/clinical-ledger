@@ -14,6 +14,7 @@
   --color-alarm: #ad2219;
   --color-alarm-paper: #fbe6e3;
   --color-balance: #1d6537;
+  --color-void: color-mix(in srgb, #ad2219 10%, transparent);
 
   /* Source Sans 3 and Source Code Pro, self-hosted: humanist and legible at small sizes,
      with true tabular figures so hash and count columns line up like a ledger's. */
@@ -42,6 +43,7 @@
     --color-alarm: #ff8b80;
     --color-alarm-paper: #3b1512;
     --color-balance: #86d9a2;
+    --color-void: color-mix(in srgb, #ff8b80 22%, transparent);
   }
 }
 
@@ -137,11 +139,11 @@
 
   /* Entries after a break: still shown, voided with a fine hatch, as a struck-out page. */
   .unverified {
-    color: var(--color-ink-2);
+    color: color-mix(in srgb, var(--color-ink-2) 82%, var(--color-paper));
     background: repeating-linear-gradient(
       135deg,
       transparent 0 6px,
-      color-mix(in srgb, var(--color-alarm) 9%, transparent) 6px 7px
+      var(--color-void) 6px 7px
     );
   }
 

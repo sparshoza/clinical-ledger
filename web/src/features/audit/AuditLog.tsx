@@ -45,8 +45,8 @@ export function AuditLog({ events, brokenSeq, mismatch = null }: Props) {
                   </tr>
                 )}
                 <tr
-                  className={`ledger-rule align-baseline ${
-                    broken ? "bg-alarm-paper text-alarm" : unverified ? "unverified" : ""
+                  className={`align-baseline ${
+                    broken ? "bg-alarm-paper text-alarm" : unverified ? "unverified ledger-rule" : "ledger-rule"
                   }`}
                 >
                   <td className={`py-1 pr-2 font-semibold ${broken ? "line-through" : ""}`}>
@@ -60,12 +60,6 @@ export function AuditLog({ events, brokenSeq, mismatch = null }: Props) {
                     {event.version_no ? (
                       <span className="text-ink-2"> v{event.version_no}</span>
                     ) : null}
-                    {broken && (
-                      <span className="stamp flex items-center gap-1 font-semibold">
-                        <BrokenIcon />
-                        Does not reconcile
-                      </span>
-                    )}
                   </td>
                   <td className={`${WIDE} py-1 pr-2`}>{event.actor_role}</td>
                   <td className="py-1 pr-2 whitespace-nowrap">
@@ -88,6 +82,17 @@ export function AuditLog({ events, brokenSeq, mismatch = null }: Props) {
                     <HashText hash={event.prev_hash} />
                   </td>
                 </tr>
+                {broken && (
+                  <tr className="ledger-rule bg-alarm-paper text-alarm">
+                    {/* Its own line, so the stamp never widens a column of the journal. */}
+                    <td colSpan={6} className="pb-1 pl-8 sm:pl-10">
+                      <span className="stamp flex items-center gap-1 font-semibold whitespace-nowrap">
+                        <BrokenIcon />
+                        Does not reconcile
+                      </span>
+                    </td>
+                  </tr>
+                )}
               </Fragment>
             );
           })}

@@ -7,6 +7,20 @@ type Props = {
   currentNo: number;
 };
 
+/** One line with a hanging indent, so a wrapped value stays under its key. */
+function Line({ text }: { text: string }) {
+  const indent = text.length - text.trimStart().length;
+  return (
+    <span
+      data-line
+      className="block whitespace-pre-wrap [overflow-wrap:anywhere]"
+      style={{ paddingLeft: `${indent + 2}ch`, textIndent: "-2ch" }}
+    >
+      {text.trimStart() || " "}
+    </span>
+  );
+}
+
 function Column({ title, lines, side }: { title: string; lines: DiffLine[]; side: "before" | "after" }) {
   return (
     <div className="min-w-0">
@@ -22,7 +36,7 @@ function Column({ title, lines, side }: { title: string; lines: DiffLine[]; side
               <span aria-hidden="true" className="text-ink-2 text-center select-none">
                 {line.changed ? (side === "before" ? "−" : "+") : ""}
               </span>
-              <span className="whitespace-pre-wrap [overflow-wrap:anywhere]">{line.text || " "}</span>
+              <Line text={line.text} />
             </span>
           ))}
         </code>

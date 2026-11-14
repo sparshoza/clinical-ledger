@@ -129,7 +129,7 @@ describe("AuditLog", () => {
 
   it("marks the entry that does not reconcile with text, not only colour", () => {
     render(<AuditLog events={events} brokenSeq={11} />);
-    expect(screen.getByText("Does not reconcile")).toBeInTheDocument();
+    expect(screen.getByText("Does not reconcile")).toHaveClass("whitespace-nowrap");
   });
 
   it("shows the recomputed hash beside the stored one on the broken entry", () => {
@@ -154,6 +154,14 @@ describe("VersionCompare", () => {
     expect(changed).toHaveLength(2);
     expect(changed[0]).toHaveTextContent('"status": "draft"');
     expect(changed[1]).toHaveTextContent('"status": "final"');
+  });
+
+  it("keeps wrapped lines indented under their key", () => {
+    render(<VersionCompare previous={{ a: "x" }} current={{ a: "y" }} previousNo={1} currentNo={2} />);
+    const text = document.querySelector('[data-changed="after"] [data-line]') as HTMLElement;
+    expect(text.textContent).toBe('"a": "y"');
+    expect(text.style.paddingLeft).toBe("4ch");
+    expect(text.style.textIndent).toBe("-2ch");
   });
 });
 
