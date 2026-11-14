@@ -11,25 +11,52 @@ def _summary(p50: float) -> dict[str, float]:
 
 
 def _result() -> dict[str, Any]:
-    probe = {"head_lookup": _summary(0.3), "full_read_c1": _summary(1.2),
-             "full_read_c8": _summary(6.0)}
+    probe = {
+        "head_lookup": _summary(0.3),
+        "full_read_c1": _summary(1.2),
+        "full_read_c8": _summary(6.0),
+    }
     return {
-        "loaded": {"events": 2_000_000, "versions": 500_000, "records": 48_993,
-                   "load_seconds": 147.4},
+        "loaded": {
+            "events": 2_000_000,
+            "versions": 500_000,
+            "records": 48_993,
+            "load_seconds": 147.4,
+        },
         "measured_at": "2026-11-14T13:29:26+00:00",
-        "environment": {"python": "3.12.3", "os": "Windows 11", "cpu": "Intel64",
-                        "physical_cores": 14, "logical_cpus": 20, "memory_gb": 31.7,
-                        "postgres": "16.15",
-                        "postgres_non_default_settings": {"shared_buffers": "16384 8kB",
-                                                          "TimeZone": "Asia/Calcutta"},
-                        "storage": "in-process"},
+        "environment": {
+            "python": "3.12.3",
+            "os": "Windows 11",
+            "cpu": "Intel64",
+            "physical_cores": 14,
+            "logical_cpus": 20,
+            "memory_gb": 31.7,
+            "postgres": "16.15",
+            "postgres_non_default_settings": {
+                "shared_buffers": "16384 8kB",
+                "TimeZone": "Asia/Calcutta",
+            },
+            "storage": "in-process",
+        },
         "append": {"c1": _summary(1.5), "c8": _summary(21.9)},
         "latest_read": {"1": probe, "100": probe, "10000": probe},
         "as_of": _summary(1.4),
-        "verify": {"full": {"ok": True, "events": 2_018_884, "blobs": 504_196,
-                            "seconds": 84.9, "events_per_second": 23_775},
-                   "from_checkpoint": {"ok": True, "events": 884, "blobs": 0,
-                                       "seconds": 0.115, "events_per_second": 7_690}},
+        "verify": {
+            "full": {
+                "ok": True,
+                "events": 2_018_884,
+                "blobs": 504_196,
+                "seconds": 84.9,
+                "events_per_second": 23_775,
+            },
+            "from_checkpoint": {
+                "ok": True,
+                "events": 884,
+                "blobs": 0,
+                "seconds": 0.115,
+                "events_per_second": 7_690,
+            },
+        },
     }
 
 
@@ -46,8 +73,12 @@ def test_markdown_carries_every_measurement() -> None:
 
 
 def test_markdown_includes_tenant_creation_when_measured() -> None:
-    run = {"label": "neon", "count": 20, "with_connect": _summary(400.0),
-           "create_only": _summary(300.0)}
+    run = {
+        "label": "neon",
+        "count": 20,
+        "with_connect": _summary(400.0),
+        "create_only": _summary(300.0),
+    }
     assert "| neon | 20 | 400.00 |" in render_markdown(_result(), tenant_runs=[run])
 
 

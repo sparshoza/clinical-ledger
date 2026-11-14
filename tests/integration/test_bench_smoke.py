@@ -10,7 +10,10 @@ pytestmark = pytest.mark.integration
 
 
 def test_bench_scripts_run_small(
-    owner_conn: psycopg.Connection, app_dsn: str, migrated_db: str, clean_tables: None,
+    owner_conn: psycopg.Connection,
+    app_dsn: str,
+    migrated_db: str,
+    clean_tables: None,
     tmp_path: Path,
 ) -> None:
     info = load(migrated_db, events=2000, versions=500)

@@ -102,33 +102,74 @@ def load(owner_dsn: str, events: int, versions: int) -> BenchInfo:
                     payload = {"content_hash": content_hash}
                 at = BASE + TICK * seq
                 fields = event_hash_fields(
-                    tenant_id=tenant_id, seq=seq, event_type=event_type,
-                    record_id=record_ids[index], version_no=version, actor=actor_id,
-                    actor_role="clinician", occurred_at=at, payload=payload,
+                    tenant_id=tenant_id,
+                    seq=seq,
+                    event_type=event_type,
+                    record_id=record_ids[index],
+                    version_no=version,
+                    actor=actor_id,
+                    actor_role="clinician",
+                    occurred_at=at,
+                    payload=payload,
                 )
                 event_hash = compute_event_hash(prev_hash, fields)
                 if seq % CHECKPOINT_INTERVAL == 0:
                     checkpoints.append((tenant_id, seq, event_hash))
-                yield (tenant_id, seq, event_type, record_ids[index], version, actor_id,
-                       "clinician", at, Jsonb(payload), prev_hash, event_hash)
+                yield (
+                    tenant_id,
+                    seq,
+                    event_type,
+                    record_ids[index],
+                    version,
+                    actor_id,
+                    "clinician",
+                    at,
+                    Jsonb(payload),
+                    prev_hash,
+                    event_hash,
+                )
                 prev_hash = event_hash
 
     tables: list[tuple[str, str, Iterator[tuple[Any, ...]]]] = [
-        ("blobs", "content_hash, size_bytes, media_type, storage_key",
-         ((h, len(content_for(i, v)), "application/json", blob_key(h))
-          for _, i, v, h in version_rows())),
-        ("records", "tenant_id, id, kind, subject_ref, created_at, created_by",
-         ((tenant_id, record_ids[i], "lab-panel", f"Patient/bench-{i}", BASE, actor_id)
-          for i in range(len(plan)))),
-        ("versions", "tenant_id, record_id, version_no, content_hash, created_at, created_by, note",
-         ((tenant_id, record_ids[i], v, h, BASE + TICK * s, actor_id, "")
-          for s, i, v, h in version_rows())),
-        ("record_heads",
-         "tenant_id, record_id, latest_version_no, latest_content_hash, updated_at",
-         ((tenant_id, record_ids[i], v, h, BASE + TICK * s)
-          for s, i, v, h in version_rows() if v == plan[i])),
-        ("events", "tenant_id, seq, event_type, record_id, version_no, actor, actor_role, "
-         "occurred_at, payload, prev_hash, event_hash", event_rows()),
+        (
+            "blobs",
+            "content_hash, size_bytes, media_type, storage_key",
+            (
+                (h, len(content_for(i, v)), "application/json", blob_key(h))
+                for _, i, v, h in version_rows()
+            ),
+        ),
+        (
+            "records",
+            "tenant_id, id, kind, subject_ref, created_at, created_by",
+            (
+                (tenant_id, record_ids[i], "lab-panel", f"Patient/bench-{i}", BASE, actor_id)
+                for i in range(len(plan))
+            ),
+        ),
+        (
+            "versions",
+            "tenant_id, record_id, version_no, content_hash, created_at, created_by, note",
+            (
+                (tenant_id, record_ids[i], v, h, BASE + TICK * s, actor_id, "")
+                for s, i, v, h in version_rows()
+            ),
+        ),
+        (
+            "record_heads",
+            "tenant_id, record_id, latest_version_no, latest_content_hash, updated_at",
+            (
+                (tenant_id, record_ids[i], v, h, BASE + TICK * s)
+                for s, i, v, h in version_rows()
+                if v == plan[i]
+            ),
+        ),
+        (
+            "events",
+            "tenant_id, seq, event_type, record_id, version_no, actor, actor_role, "
+            "occurred_at, payload, prev_hash, event_hash",
+            event_rows(),
+        ),
     ]
     with psycopg.connect(owner_dsn, autocommit=True) as conn:
         conn.execute(
@@ -157,8 +198,11 @@ def load(owner_dsn: str, events: int, versions: int) -> BenchInfo:
         events=events,
         versions=sum(plan),
         record_count=len(plan),
-        probe_records={str(n): str(record_ids[i]) for i, n in enumerate(plan) if n in PROBES
-                       and i < len(PROBES)},
+        probe_records={
+            str(n): str(record_ids[i])
+            for i, n in enumerate(plan)
+            if n in PROBES and i < len(PROBES)
+        },
         load_seconds=round(time.perf_counter() - started, 1),
     )
 

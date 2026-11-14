@@ -101,6 +101,7 @@ def verify_chain(
         "WHERE v.tenant_id = %s AND (%s::timestamptz IS NULL OR v.created_at >= %s)",
         (tenant_id, blob_since, blob_since),
     ).fetchall()
+
     def rehashes(item: tuple[str, str]) -> bool:
         content_hash, key = item
         try:

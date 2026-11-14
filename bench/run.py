@@ -44,16 +44,27 @@ def _settings() -> Settings:
         ("s3_bucket", "s3_access_key_id", "s3_secret_access_key", "jwt_secret", "cron_secret"),
         "unused",
     )
-    return Settings(_env_file=None, database_url="unused", s3_backend="memory",  # type: ignore[call-arg]
-                    **placeholders)
+    return Settings(
+        _env_file=None,
+        database_url="unused",
+        s3_backend="memory",  # type: ignore[call-arg]
+        **placeholders,
+    )
 
 
 def _summary(samples_ns: list[int]) -> dict[str, float]:
     ms = sorted(n / 1e6 for n in samples_ns)
+
     def pct(p: float) -> float:
         return round(ms[min(len(ms) - 1, int(p * len(ms)))], 3)
-    return {"ops": len(ms), "p50_ms": pct(0.50), "p95_ms": pct(0.95), "p99_ms": pct(0.99),
-            "mean_ms": round(statistics.fmean(ms), 3)}
+
+    return {
+        "ops": len(ms),
+        "p50_ms": pct(0.50),
+        "p95_ms": pct(0.95),
+        "p99_ms": pct(0.99),
+        "mean_ms": round(statistics.fmean(ms), 3),
+    }
 
 
 def _timed(op: Callable[[], Any], count: int) -> list[int]:
@@ -67,8 +78,12 @@ def _timed(op: Callable[[], Any], count: int) -> list[int]:
     return samples
 
 
-def _concurrent(make_op: Callable[[psycopg.Connection], Callable[[], Any]], dsn: str,
-                threads: int, per_thread: int) -> list[int]:
+def _concurrent(
+    make_op: Callable[[psycopg.Connection], Callable[[], Any]],
+    dsn: str,
+    threads: int,
+    per_thread: int,
+) -> list[int]:
     results: list[list[int]] = [[] for _ in range(threads)]
     errors: list[BaseException] = []
 
@@ -90,9 +105,24 @@ def _concurrent(make_op: Callable[[psycopg.Connection], Callable[[], Any]], dsn:
 
 
 # Settings that are configuration noise rather than performance, left out of the report.
-_SETTING_NOISE = ("log", "lc_", "port", "listen", "datestyle", "timezone", "default_text",
-                  "dynamic_shared", "ssl", "hba", "ident", "config_file", "data_directory",
-                  "cluster_name", "application_name", "client_encoding")
+_SETTING_NOISE = (
+    "log",
+    "lc_",
+    "port",
+    "listen",
+    "datestyle",
+    "timezone",
+    "default_text",
+    "dynamic_shared",
+    "ssl",
+    "hba",
+    "ident",
+    "config_file",
+    "data_directory",
+    "cluster_name",
+    "application_name",
+    "client_encoding",
+)
 
 
 def _cpu_name() -> str:
@@ -101,8 +131,9 @@ def _cpu_name() -> str:
         import winreg
 
         try:
-            key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,
-                                 r"HARDWARE\DESCRIPTION\System\CentralProcessor\0")
+            key = winreg.OpenKey(
+                winreg.HKEY_LOCAL_MACHINE, r"HARDWARE\DESCRIPTION\System\CentralProcessor\0"
+            )
             return str(winreg.QueryValueEx(key, "ProcessorNameString")[0]).strip()
         except OSError:
             pass
@@ -120,8 +151,11 @@ def _environment(conn: psycopg.Connection) -> dict[str, Any]:
         "SELECT name, setting, coalesce(unit, '') FROM pg_settings "
         "WHERE source NOT IN ('default', 'override', 'client', 'session') ORDER BY name"
     ).fetchall()
-    settings = {name: f"{setting}{' ' + unit if unit else ''}" for name, setting, unit in rows
-                if not name.lower().startswith(_SETTING_NOISE)}
+    settings = {
+        name: f"{setting}{' ' + unit if unit else ''}"
+        for name, setting, unit in rows
+        if not name.lower().startswith(_SETTING_NOISE)
+    }
     return {
         "python": platform.python_version(),
         "os": f"{platform.system()} {platform.release()}",
@@ -148,12 +182,15 @@ def run(app_dsn: str, info: BenchInfo, out: Path, quick: bool = False) -> dict[s
     with psycopg.connect(app_dsn, autocommit=True) as conn, tenant_transaction(conn, tenant):
         present = conn.execute("SELECT count(*) FROM versions").fetchone()[0]  # type: ignore[index]
         if present != info.versions:
-            raise SystemExit("this data set has been measured already: run python -m bench.load "
-                             "again first")
+            raise SystemExit(
+                "this data set has been measured already: run python -m bench.load again first"
+            )
         # Appends go to an ordinary record, so the probe records keep their version counts.
         append_target = conn.execute(
             "SELECT record_id FROM record_heads WHERE NOT (record_id = ANY(%s)) "
-            "ORDER BY record_id LIMIT 1", (list(probes.values()),)).fetchone()[0]  # type: ignore[index]
+            "ORDER BY record_id LIMIT 1",
+            (list(probes.values()),),
+        ).fetchone()[0]  # type: ignore[index]
     counter = iter(range(10**9))
 
     def make_reader(conn: psycopg.Connection) -> LedgerReader:
@@ -162,50 +199,70 @@ def run(app_dsn: str, info: BenchInfo, out: Path, quick: bool = False) -> dict[s
 
     def append_op(conn: psycopg.Connection) -> Callable[[], Any]:
         writer = LedgerWriter(conn, store, tenant, actor, settings)
+
         def op() -> None:
             with tenant_transaction(conn, tenant):
                 content = f'{{"bench":{next(counter)}}}'.encode()
                 writer.add_version(append_target, content, "application/json")
+
         return op
 
     def head_op(conn: psycopg.Connection, record: UUID) -> Callable[[], Any]:
         def op() -> None:
             with tenant_transaction(conn, tenant):
-                conn.execute("SELECT latest_version_no, latest_content_hash FROM record_heads "
-                             "WHERE tenant_id = %s AND record_id = %s", (tenant, record)).fetchone()
+                conn.execute(
+                    "SELECT latest_version_no, latest_content_hash FROM record_heads "
+                    "WHERE tenant_id = %s AND record_id = %s",
+                    (tenant, record),
+                ).fetchone()
+
         return op
 
     def read_op(conn: psycopg.Connection, record: UUID) -> Callable[[], Any]:
         reader = make_reader(conn)
+
         def op() -> None:
             with tenant_transaction(conn, tenant):
                 reader.latest(record)
+
         return op
 
-    result: dict[str, Any] = {"loaded": {"events": info.events, "versions": info.versions,
-                                         "records": info.record_count,
-                                         "load_seconds": info.load_seconds},
-                              "measured_at": datetime.now(UTC).isoformat()}
+    result: dict[str, Any] = {
+        "loaded": {
+            "events": info.events,
+            "versions": info.versions,
+            "records": info.record_count,
+            "load_seconds": info.load_seconds,
+        },
+        "measured_at": datetime.now(UTC).isoformat(),
+    }
     with psycopg.connect(app_dsn, autocommit=True) as conn:
         result["environment"] = _environment(conn)
-        result["append"] = {"c1": _summary(_timed(append_op(conn), n)),
-                            "c8": _summary(_concurrent(append_op, app_dsn, 8, n // 8))}
+        result["append"] = {
+            "c1": _summary(_timed(append_op(conn), n)),
+            "c8": _summary(_concurrent(append_op, app_dsn, 8, n // 8)),
+        }
         result["latest_read"] = {}
         for count, record in sorted(probes.items()):
             result["latest_read"][str(count)] = {
                 "head_lookup": _summary(_timed(head_op(conn, record), n)),
                 "full_read_c1": _summary(_timed(read_op(conn, record), n)),
                 "full_read_c8": _summary(
-                    _concurrent(functools.partial(read_op, record=record), app_dsn, 8, n // 8)),
+                    _concurrent(functools.partial(read_op, record=record), app_dsn, 8, n // 8)
+                ),
             }
         reader = make_reader(conn)
         with tenant_transaction(conn, tenant):
             middle = conn.execute(
                 "SELECT created_at FROM versions WHERE tenant_id = %s AND record_id = %s "
-                "AND version_no = %s", (tenant, hot, max(probes) // 2 or 1)).fetchone()[0]  # type: ignore[index]
+                "AND version_no = %s",
+                (tenant, hot, max(probes) // 2 or 1),
+            ).fetchone()[0]  # type: ignore[index]
+
         def as_of_op() -> None:
             with tenant_transaction(conn, tenant):
                 reader.as_of(hot, middle)
+
         result["as_of"] = _summary(_timed(as_of_op, n))
         result["verify"] = {}
         for mode, from_checkpoint in (("full", False), ("from_checkpoint", True)):
@@ -213,9 +270,13 @@ def run(app_dsn: str, info: BenchInfo, out: Path, quick: bool = False) -> dict[s
             with tenant_transaction(conn, tenant):
                 verified = verify_chain(conn, store, tenant, from_checkpoint=from_checkpoint)
             seconds = time.perf_counter() - started
-            result["verify"][mode] = {"ok": verified.ok, "events": verified.checked_events,
-                                      "blobs": verified.checked_blobs, "seconds": round(seconds, 3),
-                                      "events_per_second": round(verified.checked_events / seconds)}
+            result["verify"][mode] = {
+                "ok": verified.ok,
+                "events": verified.checked_events,
+                "blobs": verified.checked_blobs,
+                "seconds": round(seconds, 3),
+                "events_per_second": round(verified.checked_events / seconds),
+            }
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(result, indent=2), "utf-8")
     return result

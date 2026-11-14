@@ -34,8 +34,9 @@ class Smoke:
         headers = {"Authorization": f"Bearer {self.token}"} if self.token else {}
         response = self.http.request(method, f"{API}{path}", headers=headers, **kwargs)
         if response.status_code >= 400:
-            raise AssertionError(f"{method} {path} returned {response.status_code}: "
-                                 f"{response.text[:200]}")
+            raise AssertionError(
+                f"{method} {path} returned {response.status_code}: {response.text[:200]}"
+            )
         return response.json()
 
 
@@ -112,11 +113,14 @@ def run(base_url: str, cron_secret: str | None) -> int:
         ("reset", reset),
     ]
     if cron_secret:
+
         def cleanup() -> str:
-            response = s.http.get(f"{API}/cron/cleanup",
-                                  headers={"Authorization": f"Bearer {cron_secret}"})
+            response = s.http.get(
+                f"{API}/cron/cleanup", headers={"Authorization": f"Bearer {cron_secret}"}
+            )
             expect(response.status_code == 200, f"status {response.status_code}")
             return f"removed {response.json()['removed']}"
+
         checks.append(("nightly cleanup", cleanup))
 
     for name, test in checks:

@@ -21,7 +21,10 @@ def test_entry_point_is_a_fastapi_app_that_imports_without_environment() -> None
     )
     root = Path(__file__).resolve().parents[2]
     done = subprocess.run(  # noqa: S603
-        [sys.executable, "-c", code], cwd=Path("/"), capture_output=True, text=True,
+        [sys.executable, "-c", code],
+        cwd=Path("/"),
+        capture_output=True,
+        text=True,
         env={"PYTHONPATH": str(root / "src"), "SYSTEMROOT": "C:\\Windows", "PATH": ""},
         check=False,
     )

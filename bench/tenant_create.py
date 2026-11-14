@@ -49,9 +49,12 @@ def main() -> None:
     args = parser.parse_args()
     if not args.database_url:
         parser.error("--database-url or DATABASE_URL is required")
-    result = {"label": args.label, "count": args.count,
-              "measured_at": datetime.now(UTC).isoformat(),
-              **time_creations(args.database_url, args.count)}
+    result = {
+        "label": args.label,
+        "count": args.count,
+        "measured_at": datetime.now(UTC).isoformat(),
+        **time_creations(args.database_url, args.count),
+    }
     stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
     out = ROOT / "bench" / "results" / f"tenant-create-{args.label}-{stamp}.json"
     out.parent.mkdir(parents=True, exist_ok=True)

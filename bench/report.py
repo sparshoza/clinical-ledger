@@ -51,9 +51,11 @@ def _probe_label(count: str) -> str:
 
 def render_markdown(result: dict[str, Any], tenant_runs: list[dict[str, Any]]) -> str:
     env, loaded, verify = result["environment"], result["loaded"], result["verify"]
-    settings = {name: _setting(value)
-                for name, value in env["postgres_non_default_settings"].items()
-                if not name.lower().startswith(_PRIVATE_SETTINGS)}
+    settings = {
+        name: _setting(value)
+        for name, value in env["postgres_non_default_settings"].items()
+        if not name.lower().startswith(_PRIVATE_SETTINGS)
+    }
     lines = [
         "# Benchmarks",
         "",
@@ -117,16 +119,22 @@ def render_markdown(result: dict[str, Any], tenant_runs: list[dict[str, Any]]) -
     ]
     for label, key in (("The first entry", "full"), ("The latest checkpoint", "from_checkpoint")):
         v = verify[key]
-        lines.append(f"| {label} | {v['events']:,} | {v['blobs']:,} | {v['seconds']:,} "
-                     f"| {v['events_per_second']:,} |")
+        lines.append(
+            f"| {label} | {v['events']:,} | {v['blobs']:,} | {v['seconds']:,} "
+            f"| {v['events_per_second']:,} |"
+        )
     extra = verify["full"]["events"] - loaded["events"]
     if extra > 0:
-        lines += ["", f"The full run checks {extra:,} more entries than were loaded: the "
-                  "measurements above",
-                  "append journal entries of their own, and those are verified too."]
-    lines += ["", "Both runs reported the chain intact.", ""] if all(
-        verify[k]["ok"] for k in ("full", "from_checkpoint")) else [
-        "", "A run reported a broken chain; these numbers are not valid.", ""]
+        lines += [
+            "",
+            f"The full run checks {extra:,} more entries than were loaded: the measurements above",
+            "append journal entries of their own, and those are verified too.",
+        ]
+    lines += (
+        ["", "Both runs reported the chain intact.", ""]
+        if all(verify[k]["ok"] for k in ("full", "from_checkpoint"))
+        else ["", "A run reported a broken chain; these numbers are not valid.", ""]
+    )
     if tenant_runs:
         lines += [
             "## Starting a demo",
@@ -145,10 +153,12 @@ def render_markdown(result: dict[str, Any], tenant_runs: list[dict[str, Any]]) -
                 f"| {_ms(run['with_connect']['p95_ms'])} | {_ms(run['create_only']['p50_ms'])} |"
             )
         if any(run["label"].endswith("-remote") for run in tenant_runs):
-            lines += ["",
-                      "The Neon row was measured from a machine on another continent, so each",
-                      "statement pays an intercontinental round trip. The deployed function",
-                      "runs in the same region as the database."]
+            lines += [
+                "",
+                "The Neon row was measured from a machine on another continent, so each",
+                "statement pays an intercontinental round trip. The deployed function",
+                "runs in the same region as the database.",
+            ]
         lines.append("")
     lines += [
         "## Setup",
@@ -204,9 +214,11 @@ def _bar_path(x: float, y: float, height: float) -> str:
     """A column with a 4px rounded top, square at the baseline."""
     r = min(4.0, height, BAR / 2)
     base = y + height
-    return (f"M{x:.1f},{base:.1f} V{y + r:.1f} Q{x:.1f},{y:.1f} {x + r:.1f},{y:.1f} "
-            f"H{x + BAR - r:.1f} Q{x + BAR:.1f},{y:.1f} {x + BAR:.1f},{y + r:.1f} "
-            f"V{base:.1f} Z")
+    return (
+        f"M{x:.1f},{base:.1f} V{y + r:.1f} Q{x:.1f},{y:.1f} {x + r:.1f},{y:.1f} "
+        f"H{x + BAR - r:.1f} Q{x + BAR:.1f},{y:.1f} {x + BAR:.1f},{y + r:.1f} "
+        f"V{base:.1f} Z"
+    )
 
 
 def render_svg(result: dict[str, Any]) -> str:
@@ -245,18 +257,22 @@ def render_svg(result: dict[str, Any]) -> str:
     ]
     legend_x = 16.0
     for _, name, slot in SERIES:
-        parts.append(f'<rect class="sw {slot}" x="{legend_x}" y="62" width="12" height="12" '
-                     'rx="2"/>')
+        parts.append(
+            f'<rect class="sw {slot}" x="{legend_x}" y="62" width="12" height="12" rx="2"/>'
+        )
         parts.append(f'<text class="legend" x="{legend_x + 18}" y="72">{name}</text>')
         legend_x += 18 + 8 * len(name) + 20
     ticks = 4
     for i in range(ticks + 1):
         ms = top * i / ticks
         y = y_of(ms)
-        parts.append(f'<line class="{"axis" if i == 0 else "grid"}" x1="{LEFT}" y1="{y:.1f}" '
-                     f'x2="{WIDTH - RIGHT}" y2="{y:.1f}"/>')
-        parts.append(f'<text class="tick" x="{LEFT - 8}" y="{y + 4:.1f}" '
-                     f'text-anchor="end">{ms:g}</text>')
+        parts.append(
+            f'<line class="{"axis" if i == 0 else "grid"}" x1="{LEFT}" y1="{y:.1f}" '
+            f'x2="{WIDTH - RIGHT}" y2="{y:.1f}"/>'
+        )
+        parts.append(
+            f'<text class="tick" x="{LEFT - 8}" y="{y + 4:.1f}" text-anchor="end">{ms:g}</text>'
+        )
     group_w = plot_w / len(probes)
     pair_w = BAR * len(SERIES) + GAP * (len(SERIES) - 1)
     for g, (count, probe) in enumerate(probes):
@@ -266,14 +282,20 @@ def render_svg(result: dict[str, Any]) -> str:
             ms = probe[key]["p50_ms"]
             y = y_of(ms)
             label = f"{_probe_label(count)} versions, {name.lower()}: {ms:.2f} ms median"
-            parts.append(f'<path class="bar {slot}" d="{_bar_path(x, y, y_of(0) - y)}">'
-                         f"<title>{escape(label)}</title></path>")
-            parts.append(f'<text class="value" x="{x + BAR / 2:.1f}" y="{y - 6:.1f}" '
-                         f'text-anchor="middle">{ms:.2f}</text>')
+            parts.append(
+                f'<path class="bar {slot}" d="{_bar_path(x, y, y_of(0) - y)}">'
+                f"<title>{escape(label)}</title></path>"
+            )
+            parts.append(
+                f'<text class="value" x="{x + BAR / 2:.1f}" y="{y - 6:.1f}" '
+                f'text-anchor="middle">{ms:.2f}</text>'
+            )
             x += BAR + GAP
         noun = "version" if count == "1" else "versions"
-        parts.append(f'<text class="group" x="{center:.1f}" y="{HEIGHT - BOTTOM + 22}" '
-                     f'text-anchor="middle">{_probe_label(count)} {noun}</text>')
+        parts.append(
+            f'<text class="group" x="{center:.1f}" y="{HEIGHT - BOTTOM + 22}" '
+            f'text-anchor="middle">{_probe_label(count)} {noun}</text>'
+        )
     parts.append("</svg>")
     return "\n".join(parts) + "\n"
 

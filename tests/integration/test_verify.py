@@ -107,7 +107,6 @@ def test_tampered_event_reports_its_seq(
     assert result.reason == "hash_mismatch"
 
 
-
 def test_hash_mismatch_reports_stored_and_recomputed_hash(
     app_conn: psycopg.Connection,
     store: InMemoryBlobStore,
@@ -118,8 +117,7 @@ def test_hash_mismatch_reports_stored_and_recomputed_hash(
     tenant = make_tenant()
     _fill(app_conn, store, tenant, clinician, settings, versions=9)
     with tenant_transaction(app_conn, tenant):
-        stored = app_conn.execute(
-            "SELECT event_hash FROM events WHERE seq = 7").fetchone()[0]  # type: ignore[index]
+        stored = app_conn.execute("SELECT event_hash FROM events WHERE seq = 7").fetchone()[0]  # type: ignore[index]
         app_conn.execute("SELECT demo_tamper_event(%s, 7)", (tenant,))
     result = _verify(app_conn, store, tenant)
     assert result.stored_hash == stored
@@ -140,6 +138,7 @@ def test_intact_chain_reports_no_hashes(
     result = _verify(app_conn, store, tenant)
     assert result.stored_hash is None
     assert result.computed_hash is None
+
 
 def test_override_blob_reports_blob_mismatch(
     app_conn: psycopg.Connection,
