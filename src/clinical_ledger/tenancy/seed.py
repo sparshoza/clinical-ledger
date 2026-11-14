@@ -90,19 +90,22 @@ def next_edit(seed: Seed, kind: str, version_no: int) -> DemoEdit:
 
 def install_seed(owner_conn: psycopg.Connection, store: BlobStore, seed: Seed) -> None:
     """Insert the shared actors and seed blobs (owner connection). Safe to re-run."""
-    for actor in seed.actors:
-        owner_conn.execute(
-            "INSERT INTO actors (id, display_name, role) VALUES (%s, %s, %s) "
-            "ON CONFLICT (id) DO NOTHING",
-            (actor.id, actor.display_name, actor.role),
-        )
     media = {v.content_hash: v.media_type for r in seed.records for v in r.versions}
     for content_hash, content in seed.blobs.items():
         key = blob_key(content_hash)
         if not store.exists(key):
             store.put(key, content, media[content_hash])
-        owner_conn.execute(
+    with owner_conn.cursor() as cur:
+        cur.executemany(
+            "INSERT INTO actors (id, display_name, role) VALUES (%s, %s, %s) "
+            "ON CONFLICT (id) DO NOTHING",
+            [(a.id, a.display_name, a.role) for a in seed.actors],
+        )
+        cur.executemany(
             "INSERT INTO blobs (content_hash, size_bytes, media_type, storage_key) "
             "VALUES (%s, %s, %s, %s) ON CONFLICT (content_hash) DO NOTHING",
-            (content_hash, len(content), media[content_hash], key),
+            [
+                (content_hash, len(content), media[content_hash], blob_key(content_hash))
+                for content_hash, content in seed.blobs.items()
+            ],
         )

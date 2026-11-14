@@ -14,7 +14,7 @@ export function AuditLog({ events, brokenSeq }: Props) {
     <div className="overflow-x-auto">
       <table aria-label="Journal" className="w-full border-collapse text-sm">
         <thead>
-          <tr className="ledger-head text-ink-2 text-left text-xs">
+          <tr className="ledger-head text-ink-2 text-left text-xs whitespace-nowrap">
             <th scope="col" className="py-1 pr-2 font-medium">No.</th>
             <th scope="col" className="py-1 pr-2 font-medium">When</th>
             <th scope="col" className="py-1 pr-2 font-medium">Entry</th>
@@ -42,17 +42,17 @@ export function AuditLog({ events, brokenSeq }: Props) {
                   {eventLabel(event.event_type)}
                   {event.version_no ? <span className="text-ink-2"> v{event.version_no}</span> : null}
                   {broken && (
-                    <span className="ml-2 inline-flex items-center gap-1 font-semibold">
+                    <span className="flex items-center gap-1 font-semibold">
                       <BrokenIcon />
                       Does not reconcile
                     </span>
                   )}
                 </td>
                 <td className="py-1 pr-2">{event.actor_role}</td>
-                <td className="py-1 pr-2">
+                <td className="py-1 pr-2 whitespace-nowrap">
                   <HashText hash={event.event_hash} />
                 </td>
-                <td className="text-ink-2 py-1">
+                <td className="text-ink-2 py-1 whitespace-nowrap">
                   <HashText hash={event.prev_hash} />
                 </td>
               </tr>

@@ -141,3 +141,10 @@ describe("ErrorState", () => {
     expect(onRetry).toHaveBeenCalledOnce();
   });
 });
+
+describe("StatusBar while busy", () => {
+  it("disables Verify while another action is running", () => {
+    render(<StatusBar stats={stats} onVerify={() => {}} canVerify verifying={false} busy />);
+    expect(screen.getByRole("button", { name: "Verify the chain" })).toBeDisabled();
+  });
+});

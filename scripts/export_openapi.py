@@ -13,14 +13,19 @@ OUT = Path(__file__).resolve().parent.parent / "web" / "openapi.json"
 
 
 def main() -> None:
-    settings = Settings(  # placeholder values: only the schema is generated
+    # Placeholder values: only the schema is generated, nothing connects anywhere.
+    required = (
+        "s3_bucket",
+        "s3_access_key_id",
+        "s3_secret_access_key",
+        "jwt_secret",
+        "cron_secret",
+    )
+    placeholders: dict[str, str] = dict.fromkeys(required, "unused")
+    settings = Settings(
         _env_file=None,  # type: ignore[call-arg]
         database_url="postgresql://unused@localhost/unused",
-        s3_bucket="unused",
-        s3_access_key_id="unused",
-        s3_secret_access_key="unused",
-        jwt_secret="unused",
-        cron_secret="unused",
+        **placeholders,
     )
     schema = create_app(settings).openapi()
     OUT.write_text(json.dumps(schema, indent=2, sort_keys=True) + "\n", "utf-8", newline="\n")

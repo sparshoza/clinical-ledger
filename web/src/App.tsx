@@ -21,13 +21,26 @@ type Props = {
   verifyResult?: VerifyOut | null;
   onVerify?: () => void;
   verifying?: boolean;
+  busy?: boolean;
 };
 
-export function App({ header, actions, verifyResult = null, onVerify, verifying = false }: Props) {
+export function App({
+  header,
+  actions,
+  verifyResult = null,
+  onVerify,
+  verifying = false,
+  busy = false,
+}: Props) {
   const { session, error: sessionError, retry } = useSession();
   const stats = useStats();
   const records = useRecords();
-  const events = useEvents();
+  const brokenSeq =
+    verifyResult?.ok === false ? (verifyResult.first_broken_seq ?? null) : null;
+  const [showLatest, setShowLatest] = useState(false);
+  useEffect(() => setShowLatest(false), [brokenSeq]);
+  const focusSeq = brokenSeq !== null && !showLatest ? brokenSeq : null;
+  const events = useEvents(focusSeq);
   const [recordId, setRecordId] = useState<string | null>(null);
   const versions = useVersions(recordId);
   const [versionNo, setVersionNo] = useState<number | null>(null);
@@ -85,6 +98,7 @@ export function App({ header, actions, verifyResult = null, onVerify, verifying 
           onVerify={() => onVerify?.()}
           canVerify={role !== "clinician"}
           verifying={verifying}
+          busy={busy}
         />
       ) : (
         <p className="ledger-head text-ink-2 py-3 text-sm">Opening your private ledger…</p>
@@ -162,12 +176,25 @@ export function App({ header, actions, verifyResult = null, onVerify, verifying 
             Each entry's hash covers the one before it, so changing any entry breaks every link
             after it.
           </p>
+          {brokenSeq !== null && (
+            <p className="flex flex-wrap items-center gap-2 pb-2 text-sm">
+              {focusSeq !== null ? (
+                <>
+                  <span>Showing the entries around #{brokenSeq}.</span>
+                  <button type="button" className="text-action underline underline-offset-2" onClick={() => setShowLatest(true)}>
+                    Show the latest entries
+                  </button>
+                </>
+              ) : (
+                <button type="button" className="text-action underline underline-offset-2" onClick={() => setShowLatest(false)}>
+                  Go to entry #{brokenSeq}
+                </button>
+              )}
+            </p>
+          )}
           {events.data ? (
             <div className="lg:max-h-[calc(100dvh-14rem)] lg:overflow-y-auto">
-              <AuditLog
-                events={events.data.items}
-                brokenSeq={verifyResult?.ok === false ? (verifyResult.first_broken_seq ?? null) : null}
-              />
+              <AuditLog events={events.data.items} brokenSeq={brokenSeq} />
             </div>
           ) : (
             <p className="text-ink-2 text-sm">Loading entries…</p>

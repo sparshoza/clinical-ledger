@@ -68,11 +68,13 @@ export function useDiff(recordId: string | null, from: number | null, to: number
   });
 }
 
-export function useEvents() {
+/** Newest entries, or the window around `focusSeq` (the entry that failed to reconcile). */
+export function useEvents(focusSeq: number | null = null) {
   const { tenant, call } = useScope();
+  const path = focusSeq === null ? "/events?limit=40" : `/events?limit=16&before_seq=${focusSeq + 9}`;
   return useQuery({
-    queryKey: [tenant, "events"],
-    queryFn: () => call<EventPage>("/events?limit=40"),
+    queryKey: [tenant, "events", focusSeq],
+    queryFn: () => call<EventPage>(path),
     enabled: tenant !== null,
   });
 }

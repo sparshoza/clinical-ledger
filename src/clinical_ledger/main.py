@@ -1,5 +1,10 @@
 """FastAPI application factory. `app` is the deployed ASGI entry point."""
 
+import logging
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
+
+import psycopg
 from fastapi import APIRouter, FastAPI
 
 from clinical_ledger import __version__
@@ -7,8 +12,11 @@ from clinical_ledger.logging import install_request_logging
 from clinical_ledger.problems import install_problem_handlers
 from clinical_ledger.routes import auth, cron, demo, events, health, records, stats, verify
 from clinical_ledger.settings import Settings, get_settings
+from clinical_ledger.storage.blobs import make_blob_store
+from clinical_ledger.tenancy.seed import install_seed, load_seed
 
 API_PREFIX = "/api/v1"
+logger = logging.getLogger("clinical_ledger")
 
 DESCRIPTION = (
     "A tamper-evident, versioned clinical record ledger. Every change is a new version, "
@@ -17,8 +25,22 @@ DESCRIPTION = (
 )
 
 
+@asynccontextmanager
+async def _lifespan(app: FastAPI) -> AsyncIterator[None]:
+    """Local runs with in-memory storage load the shared seed rows and files at startup."""
+    settings: Settings = app.state.settings
+    if settings.s3_backend == "memory":
+        try:
+            with psycopg.connect(settings.database_url, autocommit=True, connect_timeout=5) as conn:
+                install_seed(conn, make_blob_store(settings), load_seed())
+        except psycopg.Error:
+            logger.warning("database unavailable at startup; seed not installed")
+    yield
+
+
 def create_app(settings: Settings | None = None) -> FastAPI:
     app = FastAPI(
+        lifespan=_lifespan,
         title="Clinical Ledger API",
         version=__version__,
         description=DESCRIPTION,

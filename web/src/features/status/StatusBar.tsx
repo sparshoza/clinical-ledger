@@ -8,10 +8,12 @@ type Props = {
   onVerify: () => void;
   canVerify: boolean;
   verifying: boolean;
+  /** Another action is running; verifying now would check a ledger that is about to change. */
+  busy?: boolean;
 };
 
 /** The balance line: where the chain stands right now, and the one check that matters. */
-export function StatusBar({ stats, onVerify, canVerify, verifying }: Props) {
+export function StatusBar({ stats, onVerify, canVerify, verifying, busy = false }: Props) {
   const last = stats.last_verify;
   return (
     <section
@@ -50,7 +52,7 @@ export function StatusBar({ stats, onVerify, canVerify, verifying }: Props) {
           type="button"
           className="btn btn-primary"
           onClick={onVerify}
-          disabled={!canVerify || verifying}
+          disabled={!canVerify || verifying || busy}
         >
           {verifying ? "Verifying…" : "Verify the chain"}
         </button>

@@ -51,3 +51,10 @@ def test_next_edit_cycles_per_kind() -> None:
     assert next_edit(seed, "lab-panel", 2) == edits[1 % len(edits)]
     for kind in KINDS:
         assert seed.demo_edits[kind], kind
+
+
+def test_every_version_changes_the_content() -> None:
+    seed = load_seed()
+    for record in seed.records:
+        hashes = [v.content_hash for v in record.versions]
+        assert len(set(hashes)) == len(hashes), record.key

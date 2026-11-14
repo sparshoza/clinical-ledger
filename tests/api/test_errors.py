@@ -50,3 +50,17 @@ def test_unknown_route_is_problem_json(client: TestClient) -> None:
     response = client.get("/api/v1/nope")
     assert response.status_code == 404
     assert response.headers["content-type"].startswith("application/problem+json")
+
+
+def test_memory_backend_installs_seed_on_startup(
+    api_settings: Settings, owner_conn: psycopg.Connection, clean_tables: None
+) -> None:
+    from clinical_ledger.storage import blobs
+
+    blobs._memory_store = None  # a fresh process: empty in-memory storage
+    with TestClient(create_app(api_settings)) as client:
+        session = client.post("/api/v1/auth/demo", json={"role": "admin"}).json()
+        response = client.post(
+            "/api/v1/verify", json={}, headers={"Authorization": f"Bearer {session['token']}"}
+        )
+    assert response.json()["ok"] is True

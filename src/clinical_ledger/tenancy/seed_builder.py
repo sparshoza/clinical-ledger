@@ -116,7 +116,7 @@ def _summary_versions(patient: dict[str, Any]) -> list[tuple[dict[str, Any], str
         document["conditions"] = [*document["conditions"], condition]
         versions.append((copy.deepcopy(document), f"Added condition: {_condition_name(condition)}"))
     first = document["conditions"][0]
-    resolved = {**first, "clinicalStatus": "resolved"}
+    resolved = {**first, "clinicalStatus": "resolved", "abatementDateTime": "2026-10-25T09:00:00Z"}
     document["conditions"] = [resolved, *document["conditions"][1:]]
     versions.append((copy.deepcopy(document), f"Marked {_condition_name(first)} as resolved"))
     return versions

@@ -1,14 +1,18 @@
 """Records: create, add versions, read (latest, exact, as of), history and diffs."""
 
+import json
 from datetime import datetime
 from typing import Annotated
 from uuid import UUID
 
+import jsonpatch
 from fastapi import APIRouter, Depends, Query, status
 
 from clinical_ledger.auth.permissions import Permission
 from clinical_ledger.db import tenant_transaction
-from clinical_ledger.deps import RequestContext, require
+from clinical_ledger.deps import RequestContext, SeedDep, require
+from clinical_ledger.errors import RecordNotFound
+from clinical_ledger.ledger.content import encode_document, is_json_media
 from clinical_ledger.ledger.reader import LedgerReader
 from clinical_ledger.ledger.writer import LedgerWriter
 from clinical_ledger.problems import Problem
@@ -22,6 +26,7 @@ from clinical_ledger.routes.schemas import (
     VersionList,
     VersionOut,
 )
+from clinical_ledger.tenancy.seed import next_edit
 
 router = APIRouter(prefix="/records", tags=["records"])
 
@@ -135,3 +140,30 @@ def diff_versions(
     with tenant_transaction(context.conn, context.tenant_id):
         ops = reader.diff(record_id, from_version, to_version)
     return DiffOut(from_version=from_version, to_version=to_version, ops=ops)
+
+
+@router.post(
+    "/{record_id}/demo-edit",
+    response_model=VersionOut,
+    status_code=status.HTTP_201_CREATED,
+    summary="Apply the next realistic demo edit",
+)
+def demo_edit(record_id: UUID, context: CanWrite, seed: SeedDep) -> VersionOut:
+    """Add a version made from the record's latest JSON plus the next pre-written edit."""
+    writer, reader = ledger(context)
+    with tenant_transaction(context.conn, context.tenant_id):
+        kind_row = context.conn.execute(
+            "SELECT kind FROM records WHERE tenant_id = %s AND id = %s",
+            (context.tenant_id, record_id),
+        ).fetchone()
+        if kind_row is None:
+            raise RecordNotFound(str(record_id))
+        current = reader.latest(record_id)
+        if not is_json_media(current.media_type):
+            raise Problem(409, "not-json", "Demo edits apply to JSON records only")
+        edit = next_edit(seed, str(kind_row[0]), current.ref.version_no)
+        document = jsonpatch.apply_patch(json.loads(current.content), list(edit.json_patch))
+        ref = writer.add_version(
+            record_id, encode_document(document), current.media_type, edit.description
+        )
+    return VersionOut.of(ref, edit.description)

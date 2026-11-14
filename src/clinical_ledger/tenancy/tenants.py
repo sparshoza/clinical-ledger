@@ -34,7 +34,10 @@ def create_demo_tenant(conn: psycopg.Connection, settings: Settings, seed: Seed)
     timeline: list[tuple[datetime, int, int, UUID, str, str]] = []
     for order, record in enumerate(seed.records):
         record_id = uuid.uuid4()
-        stamps = [now + timedelta(days=v.created_offset_days) for v in record.versions]
+        # Spread records across the working day so the journal reads like real activity;
+        # one offset per record keeps each record's versions in order.
+        jitter = timedelta(minutes=(order * 47) % 600)
+        stamps = [now + timedelta(days=v.created_offset_days) - jitter for v in record.versions]
         records.append(
             (tenant_id, record_id, record.kind, record.subject_ref, stamps[0], author.id)
         )

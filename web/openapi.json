@@ -1350,6 +1350,66 @@
         ]
       }
     },
+    "/api/v1/records/{record_id}/demo-edit": {
+      "post": {
+        "description": "Add a version made from the record's latest JSON plus the next pre-written edit.",
+        "operationId": "demo_edit_api_v1_records__record_id__demo_edit_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "record_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Record Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VersionOut"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Apply the next realistic demo edit",
+        "tags": [
+          "records"
+        ]
+      }
+    },
     "/api/v1/records/{record_id}/diff": {
       "get": {
         "operationId": "diff_versions_api_v1_records__record_id__diff_get",

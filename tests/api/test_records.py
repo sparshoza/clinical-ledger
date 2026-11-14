@@ -173,3 +173,29 @@ def test_tenants_are_isolated_over_http(client: TestClient, sign_in: SignIn) -> 
     created = _create(client, alice, content_json={"private": True})
     response = client.get(f"/api/v1/records/{created['record_id']}", headers=bob)
     assert response.status_code == 404
+
+
+def test_demo_edit_adds_version_with_description_note(
+    client: TestClient, clinician: dict[str, str]
+) -> None:
+    record = next(
+        item
+        for item in client.get("/api/v1/records?limit=100", headers=clinician).json()["items"]
+        if item["kind"] == "lab-panel"
+    )
+    before = client.get(f"/api/v1/records/{record['id']}", headers=clinician).json()
+    response = client.post(f"/api/v1/records/{record['id']}/demo-edit", headers=clinician)
+    assert response.status_code == 201, response.text
+    version = response.json()
+    assert version["version_no"] == record["latest_version_no"] + 1
+    assert version["note"].startswith("Added lab result")
+    after = client.get(f"/api/v1/records/{record['id']}", headers=clinician).json()
+    assert len(after["content_json"]["observations"]) == (
+        len(before["content_json"]["observations"]) + 1
+    )
+
+
+def test_demo_edit_requires_write(client: TestClient, sign_in: SignIn) -> None:
+    headers = bearer(sign_in("auditor")["token"])
+    record = client.get("/api/v1/records?limit=1", headers=headers).json()["items"][0]["id"]
+    assert client.post(f"/api/v1/records/{record}/demo-edit", headers=headers).status_code == 403
