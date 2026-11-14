@@ -1,5 +1,6 @@
 """Content-addressed object storage over any S3-compatible service."""
 
+import threading
 from typing import TYPE_CHECKING, Protocol
 from uuid import UUID
 
@@ -64,7 +65,15 @@ class S3BlobStore:
             aws_access_key_id=settings.s3_access_key_id,
             aws_secret_access_key=settings.s3_secret_access_key,
             region_name=settings.s3_region,
-            config=Config(signature_version="s3v4", retries={"max_attempts": 3}),
+            # Fail fast inside a serverless time limit, and allow one connection per verify
+            # worker so parallel fetches never queue for the pool.
+            config=Config(
+                signature_version="s3v4",
+                retries={"max_attempts": 3, "mode": "standard"},
+                connect_timeout=3,
+                read_timeout=10,
+                max_pool_connections=32,
+            ),
         )
 
     def put(self, key: str, data: bytes, media_type: str) -> None:
@@ -90,13 +99,23 @@ class S3BlobStore:
 
 
 _memory_store: InMemoryBlobStore | None = None
+_s3_stores: dict[tuple[str | None, str, str], S3BlobStore] = {}
+_s3_lock = threading.Lock()
 
 
 def make_blob_store(settings: Settings) -> BlobStore:
-    """Return the configured store. The memory store is shared within a process."""
+    """Return the configured store, built once per process and shared across requests.
+
+    Building a boto3 client is slow and not thread-safe on first use, so the S3 store is
+    created under a lock and reused; its client is safe to share between threads.
+    """
     global _memory_store
     if settings.s3_backend == "memory":
         if _memory_store is None:
             _memory_store = InMemoryBlobStore()
         return _memory_store
-    return S3BlobStore(settings)
+    key = (settings.s3_endpoint_url, settings.s3_bucket, settings.s3_access_key_id)
+    with _s3_lock:
+        if key not in _s3_stores:
+            _s3_stores[key] = S3BlobStore(settings)
+        return _s3_stores[key]

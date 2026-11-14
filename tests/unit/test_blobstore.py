@@ -15,6 +15,7 @@ from clinical_ledger.storage.blobs import (
     make_blob_store,
     override_key,
 )
+from tests.conftest import make_settings
 
 
 def _settings(**overrides: object) -> Settings:
@@ -69,3 +70,17 @@ def test_keys() -> None:
 def test_make_blob_store_picks_backend() -> None:
     assert isinstance(make_blob_store(_settings(s3_backend="memory")), InMemoryBlobStore)
     assert isinstance(make_blob_store(_settings(s3_backend="s3")), S3BlobStore)
+
+
+def test_s3_store_is_built_once_per_process_with_timeouts_and_pool() -> None:
+    from clinical_ledger.ledger.verify import BLOB_WORKERS
+    from clinical_ledger.storage.blobs import S3BlobStore, make_blob_store
+
+    settings = make_settings(s3_backend="s3", s3_endpoint_url="https://example.invalid")
+    store = make_blob_store(settings)
+    assert isinstance(store, S3BlobStore)
+    assert make_blob_store(settings) is store
+    config = store._client.meta.config
+    assert config.max_pool_connections >= BLOB_WORKERS
+    assert config.connect_timeout <= 5
+    assert config.read_timeout <= 15

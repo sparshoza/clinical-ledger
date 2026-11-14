@@ -64,3 +64,35 @@ def test_memory_backend_installs_seed_on_startup(
             "/api/v1/verify", json={}, headers={"Authorization": f"Bearer {session['token']}"}
         )
     assert response.json()["ok"] is True
+
+
+def _storage_outage() -> None:
+    from botocore.exceptions import ClientError
+
+    raise ClientError(
+        {"Error": {"Code": "ServiceUnavailable"}, "ResponseMetadata": {"HTTPStatusCode": 503}},
+        "GetObject",
+    )
+
+
+def test_storage_outage_returns_503_problem(api_settings: Settings) -> None:
+    app = create_app(api_settings)
+    app.dependency_overrides[get_context] = _storage_outage
+    with TestClient(app) as client:
+        response = client.get("/api/v1/records")
+    assert response.status_code == 503
+    assert response.headers["content-type"].startswith("application/problem+json")
+
+
+def _bug() -> None:
+    raise RuntimeError("unexpected")
+
+
+def test_unexpected_error_is_still_problem_json(api_settings: Settings) -> None:
+    app = create_app(api_settings)
+    app.dependency_overrides[get_context] = _bug
+    with TestClient(app, raise_server_exceptions=False) as client:
+        response = client.get("/api/v1/records")
+    assert response.status_code == 500
+    assert response.headers["content-type"].startswith("application/problem+json")
+    assert "unexpected" not in response.text  # internals stay out of the response

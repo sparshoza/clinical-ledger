@@ -1,9 +1,10 @@
 """RFC 9457 problem details for every error response."""
 
+import logging
 from typing import Any
 
 import psycopg
-from botocore.exceptions import BotoCoreError
+from botocore.exceptions import BotoCoreError, ClientError
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -17,8 +18,9 @@ from clinical_ledger.errors import (
     VersionNotFound,
 )
 
-PROBLEM_BASE = "https://clinical-ledger.vercel.app/problems"
+PROBLEM_BASE = "https://clinical-ledger-weld.vercel.app/problems"
 MEDIA_TYPE = "application/problem+json"
+logger = logging.getLogger("clinical_ledger")
 
 
 class Problem(Exception):
@@ -90,10 +92,41 @@ async def _unavailable_handler(request: Request, exc: Exception) -> JSONResponse
     )
 
 
+# Storage answers that mean "try again later", not "you asked for something wrong".
+_STORAGE_OUTAGE_CODES = {"ServiceUnavailable", "SlowDown", "InternalError", "RequestTimeout"}
+
+
+async def _storage_error_handler(request: Request, exc: Exception) -> JSONResponse:
+    if not isinstance(exc, ClientError):
+        return _internal_problem()
+    error = exc.response.get("Error", {})
+    status = int(exc.response.get("ResponseMetadata", {}).get("HTTPStatusCode", 500))
+    if status >= 500 or error.get("Code") in _STORAGE_OUTAGE_CODES:
+        return await _unavailable_handler(request, exc)
+    logger.exception("storage request failed")
+    return _internal_problem()
+
+
+async def _unexpected_handler(request: Request, exc: Exception) -> JSONResponse:
+    logger.exception("unhandled error")
+    return _internal_problem()
+
+
+def _internal_problem() -> JSONResponse:
+    return problem_response(
+        500,
+        "internal-error",
+        "Something went wrong on our side",
+        "The error has been logged. Try again, or reset the demo if it keeps happening.",
+    )
+
+
 def install_problem_handlers(app: FastAPI) -> None:
     app.add_exception_handler(Problem, _problem_handler)
     app.add_exception_handler(LedgerError, _ledger_handler)
     app.add_exception_handler(psycopg.OperationalError, _unavailable_handler)
     app.add_exception_handler(BotoCoreError, _unavailable_handler)
+    app.add_exception_handler(ClientError, _storage_error_handler)
+    app.add_exception_handler(Exception, _unexpected_handler)
     app.add_exception_handler(StarletteHTTPException, _http_handler)
     app.add_exception_handler(RequestValidationError, _validation_handler)

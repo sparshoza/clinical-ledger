@@ -1,6 +1,6 @@
 """Check a running deployment end to end, the way a visitor uses it.
 
-Usage: python scripts/smoke.py https://clinical-ledger.vercel.app [--cron-secret SECRET]
+Usage: python scripts/smoke.py https://clinical-ledger-weld.vercel.app [--cron-secret SECRET]
 Prints PASS or FAIL per check and exits non-zero if any check fails. With
 --cron-secret it also calls the nightly cleanup once (it only removes expired demos).
 """
