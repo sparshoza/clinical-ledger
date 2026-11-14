@@ -25,13 +25,13 @@ export function Timeline({ versions, selected, onSelect }: Props) {
                 aria-current={isSelected ? "true" : undefined}
                 aria-label={`Version ${version.version_no}${isLatest ? ", latest" : ""}`}
                 onClick={() => onSelect(version.version_no)}
-                className={`grid w-full grid-cols-[2.5rem_6.5rem_1fr_auto] items-baseline gap-2 px-1 py-1.5 text-left text-sm ${
+                className={`grid w-full grid-cols-[2.25rem_minmax(0,1fr)_auto] sm:grid-cols-[2.5rem_6.5rem_minmax(0,1fr)_auto] items-baseline gap-2 px-1 py-1.5 text-left text-sm ${
                   isSelected ? "bg-paper-2" : "hover:bg-paper-2"
                 }`}
               >
                 <span className="font-semibold">v{version.version_no}</span>
-                <span className="text-ink-2">{formatDate(version.created_at)}</span>
-                <span className="truncate">
+                <span className="text-ink-2 hidden sm:inline">{formatDate(version.created_at)}</span>
+                <span className="min-w-0 [overflow-wrap:anywhere]">
                   {version.note || "No note"}
                   {isLatest && <span className="text-ink-2"> (latest)</span>}
                 </span>

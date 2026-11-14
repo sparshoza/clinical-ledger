@@ -15,9 +15,10 @@
   --color-alarm-paper: #fbe6e3;
   --color-balance: #1d6537;
 
-  --font-sans: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, "Helvetica Neue",
-    Arial, sans-serif;
-  --font-mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
+  /* Source Sans 3 and Source Code Pro, self-hosted: humanist and legible at small sizes,
+     with true tabular figures so hash and count columns line up like a ledger's. */
+  --font-sans: "Source Sans 3 Variable", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Source Code Pro Variable", ui-monospace, Consolas, monospace;
 
   --text-xs: 0.75rem;
   --text-sm: 0.8125rem;
@@ -114,23 +115,69 @@
     color: var(--color-action);
     box-shadow: inset 0 0 0 1px var(--color-rule-strong);
   }
-  .btn-alarm {
-    color: var(--color-alarm);
-    box-shadow: inset 0 0 0 1px var(--color-alarm);
-  }
   @media (hover: hover) and (pointer: fine) {
     .btn-primary:hover:not(:disabled) {
       background: color-mix(in srgb, var(--color-action) 88%, var(--color-ink));
     }
-    .btn-quiet:hover:not(:disabled),
-    .btn-alarm:hover:not(:disabled) {
+    .btn-quiet:hover:not(:disabled) {
       background: var(--color-paper-2);
     }
   }
 }
 
+@layer components {
+  /* Lines that differ between two versions: grey on the side they left, blue on the side
+     they arrived. Red stays reserved for entries that fail to reconcile. */
+  [data-changed="before"] {
+    background: color-mix(in srgb, var(--color-ink) 8%, transparent);
+  }
+  [data-changed="after"] {
+    background: color-mix(in srgb, var(--color-action) 14%, transparent);
+  }
+
+  /* Entries after a break: still shown, voided with a fine hatch, as a struck-out page. */
+  .unverified {
+    color: var(--color-ink-2);
+    background: repeating-linear-gradient(
+      135deg,
+      transparent 0 6px,
+      color-mix(in srgb, var(--color-alarm) 9%, transparent) 6px 7px
+    );
+  }
+
+  /* The one authored motion: the "Does not reconcile" stamp lands on the broken entry. */
+  .stamp {
+    transform-origin: left center;
+    animation: stamp-land 200ms var(--ease-out-quint) both;
+  }
+}
+
+@keyframes stamp-land {
+  from {
+    opacity: 0;
+    transform: scale(1.2);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  *,
+  .stamp {
+    animation-name: stamp-fade;
+  }
+}
+
+@keyframes stamp-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The stamp keeps its opacity-only variant above. */
+  *:not(.stamp),
   *::before,
   *::after {
     transition-duration: 0ms !important;

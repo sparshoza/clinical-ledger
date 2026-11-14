@@ -32,6 +32,11 @@ describe("TryItPanel", () => {
     expect(screen.getByText(/Switch to admin to tamper/)).toBeInTheDocument();
   });
 
+  it("keeps tamper buttons in action ink; red is only for what broke", () => {
+    render(<TryItPanel role="admin" pending={null} hasRecord {...handlers()} />);
+    expect(screen.getByRole("button", { name: "Tamper with the log" })).not.toHaveClass("btn-alarm");
+  });
+
   it("hides Add a version from auditors", () => {
     render(<TryItPanel role="auditor" pending={null} hasRecord {...handlers()} />);
     expect(screen.queryByRole("button", { name: "Add a version" })).not.toBeInTheDocument();

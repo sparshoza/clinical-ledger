@@ -25,7 +25,7 @@ export function TryItPanel({
 }: Props) {
   const busy = pending !== null;
   return (
-    <section aria-label="Try it" className="ledger-rule mt-4 flex flex-wrap items-center gap-2 border-t pt-3">
+    <section aria-label="Try it" className="border-rule mt-4 flex flex-wrap items-center gap-2 border-t pt-3">
       <h3 className="mr-1 text-sm font-semibold">Try it</h3>
       {role !== "auditor" && (
         <button
@@ -41,13 +41,13 @@ export function TryItPanel({
         <>
           <button
             type="button"
-            className="btn btn-alarm"
+            className="btn btn-quiet"
             onClick={onTamperFile}
             disabled={busy}
           >
             Tamper with a file
           </button>
-          <button type="button" className="btn btn-alarm" onClick={onTamperLog} disabled={busy}>
+          <button type="button" className="btn btn-quiet" onClick={onTamperLog} disabled={busy}>
             Tamper with the log
           </button>
         </>

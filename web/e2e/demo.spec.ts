@@ -4,6 +4,8 @@ test("tampering is caught and a reset balances the book again", async ({ page })
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "Clinical Ledger" })).toBeVisible();
   await expect(page.getByText(/synthetic \(Synthea\)/)).toBeVisible();
+  const about = page.getByRole("navigation", { name: "About this project" });
+  await expect(about.getByRole("link", { name: "Source on GitHub" })).toBeVisible();
   await expect(page.getByText(/350 entries/)).toBeVisible({ timeout: 20_000 });
 
   await expect(page.getByRole("radio", { name: "Admin" })).toBeChecked();
@@ -13,6 +15,7 @@ test("tampering is caught and a reset balances the book again", async ({ page })
   await page.getByRole("button", { name: "Verify the chain" }).click();
   await expect(page.getByText(/Broken at entry #/)).toBeVisible();
   await expect(page.getByText("Does not reconcile").first()).toBeVisible();
+  await expect(page.getByText(/Recomputed/)).toBeVisible();
 
   await page.getByRole("button", { name: "Reset the demo" }).click();
   await page.getByRole("button", { name: "Verify the chain" }).click();

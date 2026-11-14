@@ -7,6 +7,7 @@ import { ErrorState } from "./status/ErrorState";
 import { RecordList } from "./records/RecordList";
 import { StatusBar } from "./status/StatusBar";
 import { Timeline } from "./timeline/Timeline";
+import { VersionCompare } from "./timeline/VersionCompare";
 import type { EventOut, RecordSummaryOut, StatsOut, VersionOut } from "../api/types";
 
 const HASH = "9f3c" + "0".repeat(58) + "a1";
@@ -129,6 +130,43 @@ describe("AuditLog", () => {
   it("marks the entry that does not reconcile with text, not only colour", () => {
     render(<AuditLog events={events} brokenSeq={11} />);
     expect(screen.getByText("Does not reconcile")).toBeInTheDocument();
+  });
+
+  it("shows the recomputed hash beside the stored one on the broken entry", () => {
+    const computed = "7e01" + "0".repeat(58) + "ff";
+    render(<AuditLog events={events} brokenSeq={11} mismatch={{ stored: "b".repeat(64), computed }} />);
+    expect(screen.getByText("7e01…ff")).toBeInTheDocument();
+    expect(screen.getByText(/Recomputed/)).toBeInTheDocument();
+  });
+
+  it("separates the entries written after the break", () => {
+    render(<AuditLog events={events} brokenSeq={11} />);
+    expect(screen.getByText(/after the break/)).toBeInTheDocument();
+  });
+});
+
+describe("VersionCompare", () => {
+  it("shows the previous and selected versions side by side and marks changed lines", () => {
+    render(<VersionCompare previous={{ status: "draft", id: 1 }} current={{ status: "final", id: 1 }} previousNo={2} currentNo={3} />);
+    expect(screen.getByRole("heading", { name: "Version 2" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Version 3" })).toBeInTheDocument();
+    const changed = document.querySelectorAll("[data-changed]");
+    expect(changed).toHaveLength(2);
+    expect(changed[0]).toHaveTextContent('"status": "draft"');
+    expect(changed[1]).toHaveTextContent('"status": "final"');
+  });
+});
+
+describe("RecordList on a phone", () => {
+  it("offers to show every patient when the list is long", async () => {
+    const many: RecordSummaryOut[] = Array.from({ length: 9 }, (_, i) => ({
+      id: `m${i}`, kind: "lab-panel", subject_ref: `Patient/p${i}aaaaaa-1`, latest_version_no: 3, updated_at: "2026-11-01T00:00:00Z",
+    }));
+    render(<RecordList records={many} selectedId={null} onSelect={() => {}} />);
+    const more = screen.getByRole("button", { name: "Show all 9 patients" });
+    expect(more).toHaveAttribute("aria-expanded", "false");
+    await userEvent.click(more);
+    expect(screen.queryByRole("button", { name: /Show all/ })).not.toBeInTheDocument();
   });
 });
 
