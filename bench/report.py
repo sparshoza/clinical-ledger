@@ -30,6 +30,13 @@ def _setting(value: str) -> str:
     return value
 
 
+# Readable names for tenant_create --label values.
+RUN_LABELS = {
+    "local": "PostgreSQL on the same machine",
+    "neon-remote": "Neon (free tier), client across the internet",
+}
+
+
 def _ms(value: float) -> str:
     return f"{value:.2f}"
 
@@ -132,10 +139,16 @@ def render_markdown(result: dict[str, Any], tenant_runs: list[dict[str, Any]]) -
             "| --- | ---: | ---: | ---: | ---: |",
         ]
         for run in tenant_runs:
+            name = RUN_LABELS.get(run["label"], run["label"])
             lines.append(
-                f"| {run['label']} | {run['count']} | {_ms(run['with_connect']['p50_ms'])} "
+                f"| {name} | {run['count']} | {_ms(run['with_connect']['p50_ms'])} "
                 f"| {_ms(run['with_connect']['p95_ms'])} | {_ms(run['create_only']['p50_ms'])} |"
             )
+        if any(run["label"].endswith("-remote") for run in tenant_runs):
+            lines += ["",
+                      "The Neon row was measured from a machine on another continent, so each",
+                      "statement pays an intercontinental round trip. The deployed function",
+                      "runs in the same region as the database."]
         lines.append("")
     lines += [
         "## Setup",

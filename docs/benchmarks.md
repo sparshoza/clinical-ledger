@@ -66,7 +66,12 @@ request does. Milliseconds.
 
 | Database | Runs | p50 with connect | p95 with connect | p50 insert only |
 | --- | ---: | ---: | ---: | ---: |
-| local | 20 | 70.51 | 197.93 | 41.19 |
+| PostgreSQL on the same machine | 20 | 70.51 | 197.93 | 41.19 |
+| Neon (free tier), client across the internet | 20 | 3545.75 | 3826.89 | 2304.70 |
+
+The Neon row was measured from a machine on another continent, so each
+statement pays an intercontinental round trip. The deployed function
+runs in the same region as the database.
 
 ## Setup
 
