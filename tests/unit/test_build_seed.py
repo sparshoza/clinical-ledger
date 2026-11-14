@@ -1,7 +1,7 @@
 import json
 
 from clinical_ledger.ledger.hashing import sha256_hex
-from clinical_ledger.tenancy.seed import DEFAULT_SEED_PATH, load_seed, next_edit
+from clinical_ledger.tenancy.seed import DEFAULT_SEED_PATH, demo_edit_for, load_seed, next_edit
 from clinical_ledger.tenancy.seed_builder import PATIENTS_DIR, build_seed
 
 KINDS = {"patient-summary", "imaging-report", "lab-panel"}
@@ -58,3 +58,16 @@ def test_every_version_changes_the_content() -> None:
     for record in seed.records:
         hashes = [v.content_hash for v in record.versions]
         assert len(set(hashes)) == len(hashes), record.key
+
+
+def test_every_demo_edit_changes_the_document() -> None:
+    # Clicking "Add a version" must always produce a visible change, on every record and on
+    # every click, or the demo shows an empty comparison.
+    seed = load_seed()
+    for record in seed.records:
+        document = json.loads(seed.blobs[record.versions[-1].content_hash])
+        version_no = len(record.versions)
+        for _ in range(12):
+            _edit, changed = demo_edit_for(seed, record.kind, version_no, document)
+            assert changed != document, (record.key, version_no)
+            document, version_no = changed, version_no + 1

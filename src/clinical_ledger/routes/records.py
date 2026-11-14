@@ -5,7 +5,6 @@ from datetime import datetime
 from typing import Annotated
 from uuid import UUID
 
-import jsonpatch
 from fastapi import APIRouter, Depends, Query, status
 
 from clinical_ledger.auth.permissions import Permission
@@ -26,7 +25,7 @@ from clinical_ledger.routes.schemas import (
     VersionList,
     VersionOut,
 )
-from clinical_ledger.tenancy.seed import next_edit
+from clinical_ledger.tenancy.seed import demo_edit_for
 
 router = APIRouter(prefix="/records", tags=["records"])
 
@@ -161,8 +160,9 @@ def demo_edit(record_id: UUID, context: CanWrite, seed: SeedDep) -> VersionOut:
         current = reader.latest(record_id)
         if not is_json_media(current.media_type):
             raise Problem(409, "not-json", "Demo edits apply to JSON records only")
-        edit = next_edit(seed, str(kind_row[0]), current.ref.version_no)
-        document = jsonpatch.apply_patch(json.loads(current.content), list(edit.json_patch))
+        edit, document = demo_edit_for(
+            seed, str(kind_row[0]), current.ref.version_no, json.loads(current.content)
+        )
         ref = writer.add_version(
             record_id, encode_document(document), current.media_type, edit.description
         )

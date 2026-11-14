@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 from uuid import UUID
 
+import jsonpatch
 import psycopg
 
 from clinical_ledger.storage.blobs import BlobStore, blob_key
@@ -86,6 +87,30 @@ def next_edit(seed: Seed, kind: str, version_no: int) -> DemoEdit:
     """The demo edit to apply to a record of `kind` whose latest version is `version_no`."""
     edits = seed.demo_edits[kind]
     return edits[(version_no - 1) % len(edits)]
+
+
+def demo_edit_for(seed: Seed, kind: str, version_no: int, document: Any) -> tuple[DemoEdit, Any]:
+    """The next demo edit that actually changes `document`, and the changed document.
+
+    Starts from the edit `next_edit` schedules and moves on past any edit that would leave
+    the document as it is (or does not apply to it). When none changes it, records a new
+    revision number, so every "Add a version" shows a real difference.
+    """
+    edits = seed.demo_edits[kind]
+    start = (version_no - 1) % len(edits)
+    for offset in range(len(edits)):
+        edit = edits[(start + offset) % len(edits)]
+        try:
+            changed = jsonpatch.apply_patch(document, list(edit.json_patch))
+        except (jsonpatch.JsonPatchException, jsonpatch.JsonPointerException):
+            continue
+        if changed != document:
+            return edit, changed
+    revision = DemoEdit(
+        description=f"Recorded revision {version_no + 1}",
+        json_patch=({"op": "add", "path": "/meta", "value": {"versionId": str(version_no + 1)}},),
+    )
+    return revision, jsonpatch.apply_patch(document, list(revision.json_patch))
 
 
 def install_seed(owner_conn: psycopg.Connection, store: BlobStore, seed: Seed) -> None:
