@@ -13,16 +13,13 @@ import jsonpatch
 import psycopg
 
 from clinical_ledger.errors import ContentTampered, RecordNotFound, VersionNotFound
+from clinical_ledger.ledger.content import is_json_media
 from clinical_ledger.ledger.hashing import sha256_hex
 from clinical_ledger.ledger.models import Actor, RecordContent, RecordSummary, VersionRef
 from clinical_ledger.ledger.writer import LedgerWriter
 from clinical_ledger.storage.blobs import BlobStore
 
 _VERSION_COLUMNS = "v.record_id, v.version_no, v.content_hash, v.created_at, b.media_type"
-
-
-def is_json_media(media_type: str) -> bool:
-    return media_type == "application/json" or media_type.endswith("+json")
 
 
 class LedgerReader:

@@ -3,8 +3,9 @@
 from fastapi import APIRouter, FastAPI
 
 from clinical_ledger import __version__
+from clinical_ledger.logging import install_request_logging
 from clinical_ledger.problems import install_problem_handlers
-from clinical_ledger.routes import auth
+from clinical_ledger.routes import auth, events, health, records
 from clinical_ledger.settings import Settings, get_settings
 
 API_PREFIX = "/api/v1"
@@ -27,9 +28,11 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     )
     app.state.settings = settings or get_settings()
     install_problem_handlers(app)
+    install_request_logging(app)
 
     api = APIRouter(prefix=API_PREFIX)
-    api.include_router(auth.router)
+    for module in (health, auth, records, events):
+        api.include_router(module.router)
     app.include_router(api)
     return app
 

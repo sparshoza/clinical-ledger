@@ -12,6 +12,7 @@ import uuid
 from pathlib import Path
 from typing import Any
 
+from clinical_ledger.ledger.content import encode_document
 from clinical_ledger.ledger.hashing import sha256_hex
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -101,11 +102,6 @@ DEMO_EDITS: dict[str, list[dict[str, Any]]] = {
         },
     ],
 }
-
-
-def encode_document(document: dict[str, Any]) -> bytes:
-    """Compact, key-sorted JSON bytes. Content may contain floats (lab values)."""
-    return json.dumps(document, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
 
 
 def _condition_name(condition: dict[str, Any]) -> str:

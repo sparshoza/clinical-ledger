@@ -2,10 +2,20 @@
 
 from typing import Any
 
+import psycopg
+from botocore.exceptions import BotoCoreError
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
+
+from clinical_ledger.errors import (
+    ContentTampered,
+    ContentTooLarge,
+    LedgerError,
+    RecordNotFound,
+    VersionNotFound,
+)
 
 PROBLEM_BASE = "https://clinical-ledger.vercel.app/problems"
 MEDIA_TYPE = "application/problem+json"
@@ -56,7 +66,34 @@ async def _validation_handler(request: Request, exc: Exception) -> JSONResponse:
     )
 
 
+_LEDGER_ERRORS: dict[type[Exception], tuple[int, str, str]] = {
+    RecordNotFound: (404, "not-found", "Record not found"),
+    VersionNotFound: (404, "not-found", "Version not found"),
+    ContentTooLarge: (413, "content-too-large", "The content is too large"),
+    ContentTampered: (409, "content-tampered", "Stored content does not match its hash"),
+}
+
+
+async def _ledger_handler(request: Request, exc: Exception) -> JSONResponse:
+    if not isinstance(exc, LedgerError):
+        raise exc
+    status, slug, title = _LEDGER_ERRORS.get(type(exc), (400, "ledger-error", "Request failed"))
+    return problem_response(status, slug, title, str(exc))
+
+
+async def _unavailable_handler(request: Request, exc: Exception) -> JSONResponse:
+    return problem_response(
+        503,
+        "unavailable",
+        "The service is temporarily unavailable",
+        "The database or storage could not be reached. Try again in a few seconds.",
+    )
+
+
 def install_problem_handlers(app: FastAPI) -> None:
     app.add_exception_handler(Problem, _problem_handler)
+    app.add_exception_handler(LedgerError, _ledger_handler)
+    app.add_exception_handler(psycopg.OperationalError, _unavailable_handler)
+    app.add_exception_handler(BotoCoreError, _unavailable_handler)
     app.add_exception_handler(StarletteHTTPException, _http_handler)
     app.add_exception_handler(RequestValidationError, _validation_handler)
