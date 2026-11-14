@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+/* Ledger paper by day, ledger board by night. One green tonal ramp, blue ink for
+   anything you can press, red ink only for entries that fail to reconcile. */
+@theme {
+  --color-paper: #f3f8f3;
+  --color-paper-2: #e7f0e8;
+  --color-rule: #c3d8c6;
+  --color-rule-strong: #5f8c69;
+  --color-ink: #15222b;
+  --color-ink-2: #3d5460;
+  --color-action: #1c4c9c;
+  --color-action-ink: #ffffff;
+  --color-alarm: #ad2219;
+  --color-alarm-paper: #fbe6e3;
+  --color-balance: #1d6537;
+
+  --font-sans: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, "Helvetica Neue",
+    Arial, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.9375rem;
+  --text-lg: 1.0625rem;
+  --text-xl: 1.25rem;
+
+  --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-paper: #0e1712;
+    --color-paper-2: #132019;
+    --color-rule: #24392b;
+    --color-rule-strong: #4d7d5a;
+    --color-ink: #dbe9df;
+    --color-ink-2: #a3bdab;
+    --color-action: #94b8ff;
+    --color-action-ink: #0b1a33;
+    --color-alarm: #ff8b80;
+    --color-alarm-paper: #3b1512;
+    --color-balance: #86d9a2;
+  }
+}
+
+@layer base {
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 100%;
+    -webkit-text-size-adjust: 100%;
+    accent-color: var(--color-action);
+    scrollbar-color: var(--color-rule-strong) var(--color-paper-2);
+  }
+  body {
+    font-size: var(--text-base);
+    line-height: 1.5;
+    font-variant-numeric: tabular-nums;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--color-action) 25%, transparent);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-action);
+    outline-offset: 2px;
+  }
+  a {
+    color: var(--color-action);
+    text-underline-offset: 3px;
+  }
+  code,
+  .mono {
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+  }
+}
+
+@layer components {
+  /* A ledger column head: label above a double rule. */
+  .ledger-head {
+    border-bottom: 3px double var(--color-rule-strong);
+  }
+  .ledger-rule {
+    border-bottom: 1px solid var(--color-rule);
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 2.25rem;
+    padding: 0 0.85rem;
+    border-radius: 4px;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    transition:
+      background-color 150ms var(--ease-out-quint),
+      color 150ms var(--ease-out-quint),
+      transform 120ms var(--ease-out-quint);
+  }
+  .btn:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+  .btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+  .btn-primary {
+    background: var(--color-action);
+    color: var(--color-action-ink);
+  }
+  .btn-quiet {
+    color: var(--color-action);
+    box-shadow: inset 0 0 0 1px var(--color-rule-strong);
+  }
+  .btn-alarm {
+    color: var(--color-alarm);
+    box-shadow: inset 0 0 0 1px var(--color-alarm);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .btn-primary:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--color-action) 88%, var(--color-ink));
+    }
+    .btn-quiet:hover:not(:disabled),
+    .btn-alarm:hover:not(:disabled) {
+      background: var(--color-paper-2);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+  }
+}
