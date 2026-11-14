@@ -12,9 +12,9 @@ import { DiffView } from "./features/timeline/DiffView";
 import { Timeline } from "./features/timeline/Timeline";
 import { VersionCompare } from "./features/timeline/VersionCompare";
 import { kindLabel, patientLabel } from "./lib/format";
+import { BENCHMARKS_URL, PORTFOLIO_URL, REPO_URL } from "./lib/links";
 
-const REPO_URL = "https://github.com/sparshoza/clinical-ledger";
-const PORTFOLIO_URL = "https://github.com/sparshoza";
+
 
 type Props = {
   /** Slot for the role switcher (header) and the try-it actions (folio). */
@@ -85,13 +85,18 @@ export function App({
   return (
     <div className="mx-auto flex min-h-dvh max-w-[96rem] flex-col px-4 sm:px-6">
       <header className="flex flex-wrap items-center gap-x-5 gap-y-2 pt-4 pb-2">
-        <h1 className="text-xl font-semibold tracking-tight">Clinical Ledger</h1>
+        <h1 className="text-xl font-semibold tracking-tight">
+          <a href="/" className="text-ink no-underline">
+            Clinical Ledger
+          </a>
+        </h1>
         <p className="text-ink-2 text-sm">
           A tamper-evident record book. All data is synthetic (Synthea).
         </p>
         <nav aria-label="About this project" className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
+          <a href="/">About</a>
           <a href={REPO_URL}>Source on GitHub</a>
-          <a href={`${REPO_URL}/blob/main/docs/benchmarks.md`}>Benchmarks</a>
+          <a href={BENCHMARKS_URL}>Benchmarks</a>
           <a href={PORTFOLIO_URL}>Sparsh Oza</a>
         </nav>
         <div className="ml-auto flex items-center gap-4">{header}</div>

@@ -9,7 +9,7 @@ export default defineConfig({
   timeout: 60_000,
   retries: 0,
   use: {
-    baseURL: "http://localhost:5173",
+    baseURL: "http://localhost:5180",
     channel: process.env.CI ? undefined : "chrome",
     trace: "retain-on-failure",
   },
@@ -23,8 +23,8 @@ export default defineConfig({
       timeout: 60_000,
     },
     {
-      command: "npm run dev -- --port 5173 --strictPort",
-      url: "http://localhost:5173",
+      command: "npm run dev -- --port 5180 --strictPort",
+      url: "http://localhost:5180",
       reuseExistingServer: !process.env.CI,
       timeout: 60_000,
     },

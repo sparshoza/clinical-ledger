@@ -1,20 +1,22 @@
 @import "tailwindcss";
 
-/* Ledger paper by day, ledger board by night. One green tonal ramp, blue ink for
-   anything you can press, red ink only for entries that fail to reconcile. */
+/* Slate and cobalt. Cool near-white paper by day, deep slate by night; slate rules carry the
+   ledger's columns, cobalt marks anything you can press, and red ink is kept for entries that
+   fail to reconcile. Green appears only in the words "Chain intact". */
 @theme {
-  --color-paper: #f3f8f3;
-  --color-paper-2: #e7f0e8;
-  --color-rule: #c3d8c6;
-  --color-rule-strong: #5f8c69;
-  --color-ink: #15222b;
-  --color-ink-2: #3d5460;
-  --color-action: #1c4c9c;
+  --color-paper: #f7f8fa;
+  --color-paper-2: #eef1f5;
+  --color-surface: #ffffff;
+  --color-rule: #d5dbe3;
+  --color-rule-strong: #717f94;
+  --color-ink: #0f172a;
+  --color-ink-2: #475569;
+  --color-action: #2451d6;
   --color-action-ink: #ffffff;
-  --color-alarm: #ad2219;
-  --color-alarm-paper: #fbe6e3;
-  --color-reconciled: #1d6537;
-  --color-void: color-mix(in srgb, #ad2219 10%, transparent);
+  --color-alarm: #c0261b;
+  --color-alarm-paper: #fdecea;
+  --color-reconciled: #1f7a45;
+  --color-void: color-mix(in srgb, #c0261b 10%, transparent);
 
   /* Source Sans 3 and Source Code Pro, self-hosted: humanist and legible at small sizes,
      with true tabular figures so hash and count columns line up like a ledger's. */
@@ -32,18 +34,19 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --color-paper: #0e1712;
-    --color-paper-2: #132019;
-    --color-rule: #24392b;
-    --color-rule-strong: #4d7d5a;
-    --color-ink: #dbe9df;
-    --color-ink-2: #a3bdab;
-    --color-action: #94b8ff;
-    --color-action-ink: #0b1a33;
-    --color-alarm: #ff8b80;
-    --color-alarm-paper: #3b1512;
-    --color-reconciled: #86d9a2;
-    --color-void: color-mix(in srgb, #ff8b80 22%, transparent);
+    --color-paper: #0b1120;
+    --color-paper-2: #131c2f;
+    --color-surface: #111a2c;
+    --color-rule: #263248;
+    --color-rule-strong: #56657e;
+    --color-ink: #e6ebf3;
+    --color-ink-2: #9eabbf;
+    --color-action: #86a8ff;
+    --color-action-ink: #0b1120;
+    --color-alarm: #ff7c70;
+    --color-alarm-paper: #3a1716;
+    --color-reconciled: #6fd39a;
+    --color-void: color-mix(in srgb, #ff7c70 22%, transparent);
   }
 }
 
@@ -112,6 +115,14 @@
   .btn-primary {
     background: var(--color-action);
     color: var(--color-action-ink);
+  }
+  .btn-lg {
+    min-height: 2.75rem;
+    padding: 0 1.15rem;
+    font-size: var(--text-base);
+  }
+  a.btn {
+    text-decoration: none;
   }
   .btn-quiet {
     color: var(--color-action);
