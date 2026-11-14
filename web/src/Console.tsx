@@ -103,7 +103,7 @@ export function Console() {
           <div className="mt-3 empty:hidden" aria-live="polite">
             <VerifyResult result={result} tampered={tampered} />
             {actionError && (
-              <p role="alert" className="text-alarm text-sm">
+              <p role="alert" className="text-ink text-sm">
                 {actionError}
               </p>
             )}

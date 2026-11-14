@@ -13,7 +13,7 @@
   --color-action-ink: #ffffff;
   --color-alarm: #ad2219;
   --color-alarm-paper: #fbe6e3;
-  --color-balance: #1d6537;
+  --color-reconciled: #1d6537;
   --color-void: color-mix(in srgb, #ad2219 10%, transparent);
 
   /* Source Sans 3 and Source Code Pro, self-hosted: humanist and legible at small sizes,
@@ -42,7 +42,7 @@
     --color-action-ink: #0b1a33;
     --color-alarm: #ff8b80;
     --color-alarm-paper: #3b1512;
-    --color-balance: #86d9a2;
+    --color-reconciled: #86d9a2;
     --color-void: color-mix(in srgb, #ff8b80 22%, transparent);
   }
 }

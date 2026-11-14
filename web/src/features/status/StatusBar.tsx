@@ -35,7 +35,7 @@ export function StatusBar({ stats, onVerify, canVerify, verifying, busy = false 
         {last === null || last === undefined ? (
           <span className="text-ink-2">Not verified yet</span>
         ) : last.ok ? (
-          <span className="text-balance inline-flex items-center gap-1">
+          <span className="text-reconciled inline-flex items-center gap-1">
             <BalancedIcon /> Balanced, checked {formatRelative(last.at)}
           </span>
         ) : (

@@ -20,7 +20,7 @@ export function VerifyResult({ result, tampered }: Props) {
   }
   if (result.ok) {
     return (
-      <p role="status" className="text-balance inline-flex items-center gap-2 py-2 text-sm font-semibold">
+      <p role="status" className="text-reconciled inline-flex items-center gap-2 py-2 text-sm font-semibold">
         <BalancedIcon />
         Chain intact: {result.checked_events} entries and {result.checked_blobs} files checked.
       </p>

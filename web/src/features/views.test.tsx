@@ -110,6 +110,11 @@ describe("ContentPanel", () => {
     expect(screen.getByText("Auditors can see the log but not record content.")).toBeInTheDocument();
   });
 
+  it("keeps other read errors out of alarm red, which means a failed hash check", () => {
+    render(<ContentPanel role="admin" content={null} loading={false} error={{ status: 404, title: "Version not found" }} />);
+    expect(screen.getByRole("alert")).not.toHaveClass("text-alarm");
+  });
+
   it("explains tampered content", () => {
     render(<ContentPanel role="admin" content={null} loading={false} error={{ status: 409, title: "Stored content does not match its hash" }} />);
     expect(screen.getByText(/does not match its hash/)).toBeInTheDocument();
