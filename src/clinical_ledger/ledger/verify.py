@@ -1,5 +1,6 @@
 """Verification: recompute the tenant's hash chain and re-hash every stored blob."""
 
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from typing import Literal
 from uuid import UUID
@@ -16,6 +17,7 @@ from clinical_ledger.storage.blobs import BlobNotFound, BlobStore
 
 Reason = Literal["hash_mismatch", "broken_link", "blob_mismatch"]
 BATCH_SIZE = 5_000
+BLOB_WORKERS = 16
 
 
 @dataclass(frozen=True)
@@ -99,11 +101,17 @@ def verify_chain(
         "WHERE v.tenant_id = %s AND (%s::timestamptz IS NULL OR v.created_at >= %s)",
         (tenant_id, blob_since, blob_since),
     ).fetchall()
-    for checked_blobs, (content_hash, key) in enumerate(blobs, start=1):
+    def rehashes(item: tuple[str, str]) -> bool:
+        content_hash, key = item
         try:
-            content = store.get(str(key))
+            return sha256_hex(store.get(str(key))) == content_hash
         except BlobNotFound:
-            return VerifyResult(False, checked, checked_blobs, None, "blob_mismatch")
-        if sha256_hex(content) != content_hash:
-            return VerifyResult(False, checked, checked_blobs, None, "blob_mismatch")
+            return False
+
+    # Object storage answers in tens of milliseconds, so fetch in parallel; results come
+    # back in order, so the first mismatch reported is the same one a serial walk finds.
+    with ThreadPoolExecutor(max_workers=BLOB_WORKERS) as pool:
+        for checked_blobs, intact in enumerate(pool.map(rehashes, blobs), start=1):
+            if not intact:
+                return VerifyResult(False, checked, checked_blobs, None, "blob_mismatch")
     return VerifyResult(True, checked, len(blobs), None, None)

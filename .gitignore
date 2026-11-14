@@ -11,6 +11,7 @@ htmlcov/
 # Node
 node_modules/
 web/dist/
+public/
 web/test-results/
 web/playwright-report/
 
@@ -41,3 +42,6 @@ Thumbs.db
 # Local tooling
 .superpowers/
 *.tsbuildinfo
+
+.vercel
+.env*

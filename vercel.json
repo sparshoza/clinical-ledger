@@ -1,10 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "cd web && npm ci && npm run build",
+  "buildCommand": "cd web && npm ci && npm run build && rm -rf ../public && cp -r dist ../public",
   "functions": {
-    "src/clinical_ledger/main.py": {
+    "app.py": {
       "maxDuration": 60,
-      "excludeFiles": "{tests/**,bench/**,docs/**,fixtures/**,scripts/**,db/**,web/**}"
+      "excludeFiles": "{tests/**,bench/**,docs/**,fixtures/**,scripts/**,db/**,web/**,public/**}"
     }
   },
   "crons": [{ "path": "/api/v1/cron/cleanup", "schedule": "0 4 * * *" }]
