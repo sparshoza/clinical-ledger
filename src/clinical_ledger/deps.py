@@ -35,7 +35,7 @@ def get_seed() -> Seed:
 
 
 def get_conn(settings: SettingsDep) -> Iterator[psycopg.Connection]:
-    with psycopg.connect(settings.database_url, connect_timeout=10) as conn:
+    with psycopg.connect(settings.database_url, connect_timeout=10, autocommit=True) as conn:
         yield conn
 
 
