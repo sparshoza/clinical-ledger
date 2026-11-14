@@ -21,6 +21,7 @@ from typing import Any
 from urllib.parse import quote, urlsplit, urlunsplit
 from uuid import UUID
 
+import psutil
 import psycopg
 from dotenv import load_dotenv
 
@@ -88,18 +89,48 @@ def _concurrent(make_op: Callable[[psycopg.Connection], Callable[[], Any]], dsn:
     return [s for r in results for s in r]
 
 
+# Settings that are configuration noise rather than performance, left out of the report.
+_SETTING_NOISE = ("log", "lc_", "port", "listen", "datestyle", "timezone", "default_text",
+                  "dynamic_shared", "ssl", "hba", "ident", "config_file", "data_directory",
+                  "cluster_name", "application_name", "client_encoding")
+
+
+def _cpu_name() -> str:
+    """The marketing name where the OS exposes it; platform.processor() is a family code."""
+    if platform.system() == "Windows":
+        import winreg
+
+        try:
+            key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE,
+                                 r"HARDWARE\DESCRIPTION\System\CentralProcessor\0")
+            return str(winreg.QueryValueEx(key, "ProcessorNameString")[0]).strip()
+        except OSError:
+            pass
+    else:
+        cpuinfo = Path("/proc/cpuinfo")
+        if cpuinfo.exists():
+            for line in cpuinfo.read_text("utf-8").splitlines():
+                if line.startswith("model name"):
+                    return line.split(":", 1)[1].strip()
+    return platform.processor() or platform.machine()
+
+
 def _environment(conn: psycopg.Connection) -> dict[str, Any]:
-    settings: dict[str, str] = dict(conn.execute(
-        "SELECT name, setting FROM pg_settings WHERE name IN "
-        "('shared_buffers','work_mem','synchronous_commit','max_connections')"
-    ).fetchall())
+    rows = conn.execute(
+        "SELECT name, setting, coalesce(unit, '') FROM pg_settings "
+        "WHERE source NOT IN ('default', 'override', 'client', 'session') ORDER BY name"
+    ).fetchall()
+    settings = {name: f"{setting}{' ' + unit if unit else ''}" for name, setting, unit in rows
+                if not name.lower().startswith(_SETTING_NOISE)}
     return {
         "python": platform.python_version(),
         "os": f"{platform.system()} {platform.release()}",
-        "cpu": platform.processor() or platform.machine(),
-        "logical_cpus": os.cpu_count(),
+        "cpu": _cpu_name(),
+        "physical_cores": psutil.cpu_count(logical=False),
+        "logical_cpus": psutil.cpu_count(),
+        "memory_gb": round(psutil.virtual_memory().total / 2**30, 1),
         "postgres": conn.execute("SHOW server_version").fetchone()[0],  # type: ignore[index]
-        "postgres_settings": settings,
+        "postgres_non_default_settings": settings,
         "storage": "in-process (content rebuilt from bench.content)",
     }
 
@@ -114,6 +145,15 @@ def run(app_dsn: str, info: BenchInfo, out: Path, quick: bool = False) -> dict[s
     n = 16 if quick else 2000
     probes = {int(k): UUID(v) for k, v in info.probe_records.items()}
     hot = probes[max(probes)]
+    with psycopg.connect(app_dsn, autocommit=True) as conn, tenant_transaction(conn, tenant):
+        present = conn.execute("SELECT count(*) FROM versions").fetchone()[0]  # type: ignore[index]
+        if present != info.versions:
+            raise SystemExit("this data set has been measured already: run python -m bench.load "
+                             "again first")
+        # Appends go to an ordinary record, so the probe records keep their version counts.
+        append_target = conn.execute(
+            "SELECT record_id FROM record_heads WHERE NOT (record_id = ANY(%s)) "
+            "ORDER BY record_id LIMIT 1", (list(probes.values()),)).fetchone()[0]  # type: ignore[index]
     counter = iter(range(10**9))
 
     def make_reader(conn: psycopg.Connection) -> LedgerReader:
@@ -124,7 +164,8 @@ def run(app_dsn: str, info: BenchInfo, out: Path, quick: bool = False) -> dict[s
         writer = LedgerWriter(conn, store, tenant, actor, settings)
         def op() -> None:
             with tenant_transaction(conn, tenant):
-                writer.add_version(hot, f'{{"bench":{next(counter)}}}'.encode(), "application/json")
+                content = f'{{"bench":{next(counter)}}}'.encode()
+                writer.add_version(append_target, content, "application/json")
         return op
 
     def head_op(conn: psycopg.Connection, record: UUID) -> Callable[[], Any]:
