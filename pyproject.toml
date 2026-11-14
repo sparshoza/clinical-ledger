@@ -63,6 +63,9 @@ ignore_missing_imports = true
 testpaths = ["tests"]
 pythonpath = ["src"]
 addopts = "-ra"
+filterwarnings = [
+    "ignore:Using `httpx` with `starlette.testclient` is deprecated",
+]
 markers = [
     "integration: needs PostgreSQL (TEST_DATABASE_URL_OWNER)",
 ]
