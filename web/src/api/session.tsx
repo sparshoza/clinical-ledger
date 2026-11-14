@@ -23,7 +23,10 @@ const SessionContext = createContext<Session | null>(null);
 function load(): SessionOut | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as SessionOut) : null;
+    const stored = raw ? (JSON.parse(raw) as SessionOut) : null;
+    // An expired demo ledger has been (or will be) cleaned up; start fresh instead of
+    // sending a dead token with every first request.
+    return stored && Date.parse(stored.expires_at) > Date.now() ? stored : null;
   } catch {
     return null;
   }
@@ -44,6 +47,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const [attempt, setAttempt] = useState(0);
   const current = useRef(session);
   current.current = session;
+  const renewing = useRef<Promise<void> | null>(null);
 
   const adopt = useCallback((next: SessionOut) => {
     save(next);
@@ -64,6 +68,17 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     [adopt],
   );
 
+  /** One renewal at a time: requests that hit a 401 together wait for the same sign-in. */
+  const renew = useCallback(
+    (role: Role) => {
+      renewing.current ??= signIn(role).finally(() => {
+        renewing.current = null;
+      });
+      return renewing.current;
+    },
+    [signIn],
+  );
+
   useEffect(() => {
     if (session) return;
     signIn(DEFAULT_ROLE).catch((err: unknown) => {
@@ -73,17 +88,19 @@ export function SessionProvider({ children }: { children: ReactNode }) {
 
   const call = useCallback(
     async <T,>(path: string, init: { method?: string; body?: unknown } = {}) => {
+      const sent = current.current?.token;
       try {
-        return await apiFetch<T>(path, { ...init, token: current.current?.token });
+        return await apiFetch<T>(path, { ...init, token: sent });
       } catch (err) {
         if (err instanceof ApiError && err.status === 401) {
-          await signIn(current.current?.role ?? DEFAULT_ROLE);
+          // Another request may already have renewed the session while this one was out.
+          if (current.current?.token === sent) await renew(current.current?.role ?? DEFAULT_ROLE);
           return apiFetch<T>(path, { ...init, token: current.current?.token });
         }
         throw err;
       }
     },
-    [signIn],
+    [renew],
   );
 
   const value = useMemo<Session>(
