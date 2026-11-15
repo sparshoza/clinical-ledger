@@ -44,3 +44,6 @@ Thumbs.db
 
 .vercel
 .env*
+
+# Launch video output (copied to the portfolio site)
+brag-output/
